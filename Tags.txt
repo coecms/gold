@@ -1,0 +1,2474 @@
+
+This is a chronological list of the tags used in the GOLD model.
+
+GOLD_ogrp (2007/05/01) aja:
+  GOLD_ogrp is the branch which will contain the latest development code for
+  the o-group and OMDT.
+
+GOLD_inception_ogrp (2007/05/01) aja:
+  This labels the first version of the GOLD_ogrp branch that is self-
+  consistent. It corresponds in content to the HIM code on the Memphis_ogrp
+  branch with tag "GOLD_start_point_on_Memphis_HIM_branch_ogrp".
+
+GOLD_07Jun01_ogrp (2007/06/01) aja:
+  o Fix for CFCs in GOLD_SIS
+  o Changed method of determining Coriolis discretization
+  o Added new variant of Coriolis scheme, "robust pseudo-enstrophy conserving"
+  o Added Gudunov method for discretizing kinetic energy
+  o Added upwind option for PV advection
+
+GOLD_07Jun07_ogrp (2007/06/07) wga: (all changes in examples/GOLD_SIS)
+  o Fix 4 band setup in data_table
+  o Changed Flux_const in GOLD_input(GOLD SIS)to match MOM-SIS
+  o syntax fixes to diag_table
+  o t_trange changed from 3 to 10 in fre_input and input
+  o new timestats, big ol' changes. Go figure, now the sun is working...
+  o update README [nalanda_2007_04 for shared, new example]
+
+GOLD_07Jun27_aja (2007/06/27) aja:
+  o Tag to identify code for testing on the Oakridge Cray (XT3?)
+
+GOLD_07Jul05_ogrp (2007/07/05) wga:
+  o Added diagnostics for thickness diffusion and kappa_h
+  o Split calculation of diapycnal entrainment into H2000 and diffusivity-
+    based schemes.
+  o Moved the calculation of (non-shear-based) interior diapycnal diffusivity
+    into its own module.
+  o Rearranged tridiagonal solver for T, S, u & v in diabatic_driver to be more
+    robust to very large entrainment rates, and to work with entrainment through
+    any near-surface non-isopycnal (i.e. mixed & buffer) layers.
+  o Removed contribution from surface fluxes to h_old in diabatic_driver,
+    with required changes in all tracer codes.
+  o Fixed several critical bugs in GOLD_kappa_shear, making it work now.
+  o Rearranged mixed layer code into several smaller subroutines for better
+    variable scoping, and changed the nature of the entrainment rates ea & eb
+    from intent out to in/out variables that are set externally and then
+    incremented.  GOLD_diabatic_driver also had changes for consistency.
+  o Added an option to calculate the vertical friction based on arithmetic
+    mean thicknesses outside of the bottom boundary layer.
+
+GOLD_07Jul11_ogrp (2007/07/11) aja:
+  o Updated halo updates for Rml
+  o Added appropriate limits on the iterative solvers in GOLD_continuity_PPM.F90
+  o Fix to GOLD_sum_output.F90 to avoid NaNs in timestats
+  o Bug fix to GOLD_grid_init.F90: prevented Read_and_extrap_pairs_Hpt working
+  o Changed parentheses in GOLD_thickness_diffuse.F90
+  o Added slope dependent thickness mixing coefficient
+  o Fix to Bryan-Lewis background diffusivity for layers 1 and nz.
+  o Revision of src/tracer: uses tracer_vertdiff from GOLD_tracer
+
+CM2o2_2007_07_wga:
+  o Tag for code used in CM2.2_2007_07 experiment
+
+omsk_prerelease1_ogrp (2007/07/26) aja:
+  o Based on GOLD_07Jul11_ogrp with correct versions of timestats for
+    DOME, global and GOLD_SIS
+  o NOTE: results use nalanda_2007_04 ice code (which contains "black ice" bug)
+
+omsk_prerelease2_black_ice_ogrp (2007/08/02) aja:
+  o Made to precede update to OMSK ice code (to fix black ice bug)
+  o Based on latest code as of 08/02/2007 which contains fixes to avoid truncations
+
+omsk_prerelease2_ogrp (2007/08/02) aja:
+  o Made after upgrading ice model to omsk_prerelease.
+    - This fixes the black ice bug, present in runs to date.
+    - After this tag, all ice model and coupler code must use nalanda_2007_06 or later.
+
+CM2o2_retest1_aja (2007/08/08) aja:
+  o Tag made for running CM2.2 on definitive code
+
+kslope2_aja (2008/08/13) aja:
+  o Tag made for running new slope dependent KHTH experiments:
+    - allows Visbeck et al. (k~SN) and MOM4-like (k~SN^2) kappa's
+
+meke_aja (2007/08/16) aja:
+  o Tag made for testing/running MEKE scheme (mesoscale EKE diagnostic)
+
+meke2_aja (2007/08/21) aja:
+  o Tag made for further testing/running MEKE scheme (mesoscale EKE diagnostic)
+
+tripolar_bugfix_aja (2007/09/14) aja:
+  o Bug fix for tri-polar fold (found by rwh)
+
+rivermix_aja (2007/11/21) aja:
+  o River mixing
+  o Single med. plume fix
+  o Bug fix for halo update of visc%Ray_u/v
+  o Henyey et al. latitudinal dependent mixing
+  o Re-order of call to thickness mixing (w.r.t.BT split)
+
+notrunc_nov30_aja (2007/11/30) aja:
+  o Corrected diagnostics for river mixing (from Matt)
+  o Added calving to river mixing (from Matt)
+  o update CM2.2 to [actually] use the fixes to avoid truncations (from Bob)
+  o new tag for baseline CM2G runs
+
+base_dec17_aja (2007/12/17) aja:
+  o turned on READJUST_BT_TRANS in CM2.2
+  o minor fix in src/diagnostics/GOLD_diag_to_Z.F90
+  o new tag for baseline CM2G runs
+
+topaz_interface_2008_01_10_ogrp (2008/01/10) aja:
+  o Pulled in JPD's change to omsk_2007_10 tagged code
+    - includes TOPAZ interface changes
+    - SW penetration/opacity code has been re-factored
+    - fix for SW penetration/opacity has been commented out
+  o increased MAX_FIELDS to allow for more tracers
+  o No numerical changes incurred!
+
+jpd_sw_fix_ogrp (2008/01/10) aja:
+  o Uncommented fixes for SW penetration
+
+jpd_topaz_fix_ogrp (2008/01/23) aja:
+  o Consolidate fluxes%runoff into fluxes%river (from John)
+  o Added GOLD_OCMIP2_CO2calc.F90 (from John
+
+ks_rewrite_ogrp (2008/2/15) aja:
+  o cleanup of multiple GOLD_surface_forcing.F90 files
+    - replaced copies in examples with user_revise_forcing.F90
+      where needed
+  o ability to use a gustiness dataset
+  o clean-up (re-write of solvers) for kappa-shear
+
+base_feb15_ogrp (2008/02/15) aja:
+  o updated examples/CM2.2 parameters to reproduce CM2G_jpd_sw_fix XML
+
+joy_mar03_ogrp (2008/03/03) aja:
+  o changed canonical CM2.2 configuration (under examples/) to match
+    that used in baseline_feb15 of CM2G_base_feb15.xml
+  o change GOLD_SIS to reflect CM2.2 in all respects except
+    the use of 2D gustiness
+
+vhbt_halo_bug_ogrp (2008/03/04) aja:
+  o fix for missing halo update after restart for vhbt_in
+  o fix for kappa_shear code to avoid seg-fault with one layer
+
+omsk_2008_03_ogrp (2008/03/11) aja/wfc:
+  o Various fixes for uninitialized data and divide by zero.
+  o Add some diagnostics and debug.
+  o This is the tag used for the Omsk March 2008 patch.
+
+visbeck_ogrp (2008/03/21) aja:
+  o axis_units added to ocean_grid_type
+  o parallel restarts and large file support added
+  o added missing calls to user initialize sponge and obcs
+  o re-worked the variable coefficient for thickness mixing (GM)
+    so that isopycnal mixing can also vary
+    - cleaned up formulation (a bit)
+
+multiband_sw_ogrp (2008/04/11) rwh:
+  o Added the ability to have multiple bands of penetrating
+    shortwave radiation.
+  o Cleaned up the opacity code, including adding a new way
+    to select the shortwave opacity scheme, based on a parsed
+    character string (like the EOS).
+  o Moved the penetrating shortwave radiation from the
+    forcing type to the optics_type.
+  o Enabled TOPAZ to be compiled via a #define _USE_TOPAZ in
+    GOLD_memory.h, or on the compile line via -D _USE_TOPAZ,
+    and made it consistent with the multiple bands.
+  o add option to use mid-mixed layer pressure for ML energetics
+
+Mayday_08_ogrp (2008/04/29) rwh:
+  o Added code to log all runtime parameters, changing most files.
+  o Added code to specify the opacities with multiple bands and
+    the Manizza scheme.  The first two bands are blue and green
+    visible light.  All remaining bands are near-infrared.
+  o A few modules that select among several choices (e.g., GOLD_PressureForce)
+    now only initialize the control structures for the options that are
+    exercised.
+  o Added the option to write out 2-D surface property (SST, SSH, etc.)
+    diagnostics.
+
+scaled_kh_ogrp (2008/05/23) aja:
+  o replaced NTSTEP AND DT with DT_FORCING, DT_THERM
+  o added diagnostic of 1st baroclinic wave speed
+  o added variable Kh (lateral viscosity) as function of Ld resolution
+  o modified bands of MANIZZA_05?
+
+prePerth_May30_ogrp (2008/05/30) aja:
+  o merged changes from nnz for GOLD_generic_tracer.F90 and GOLD_tracer_flow_control.F90
+  o bug fix for OLD_OCEAN_TOPAZ.F90 from jpd via wfc
+
+gm_buffer_ogrp (2008/06/03) aja:
+  o added Simmons et al. vertical mixing
+  o reworked GM scheme to fix behavior in buffer layers
+  o added scaling of GM as function of resolution
+
+gm_topo_ogrp (2008/06/09) aja:
+  o fix for calculation of "slope" near topography
+
+tracer_cleanup_aja (2008/06/24) aja:
+  o added Z transport
+  o cleaned up tracers with fewer layers than G%ke
+  o changed macro for generic tracers from _USE_TOPAZ to _USE_GENERIC_TRACER
+  o all timestats are consistent for this tag (inc. CM2.2)
+
+opacity_080626_aja (2008/06/26) aja:
+  o GOLD_opacity.F90 catches negative CHL values (wfc)
+  o switched CHL files to the smoothed dataset from wga
+  o replaced timestats generated by wfc - could not reproduce these values
+  o all timestats are consistent for this tag (inc. CM2.2)
+
+itides_080701_aja (2008/07/01) aja:
+  o internal tidal mixing (beyond Simmons et al.) (mjh)
+    - modified GOLD_SIS and CM2.2 timestats + GOLD_input
+  o all timestats are consistent for this tag (inc. CM2.2)
+
+epimix_080710_ogrp (2008/07/10) aja:
+  o bugfix: "change" continue to "cycle" for logic with DIFFUSE_ML_TO_INTERIOR
+  o separated the calls to tracer_hordiff and advect_tracer
+  o added epipycnal mixing between the mixed layer and the interior
+  o rewrote the along-layer tracer diffusion to precalculate the number of iterations
+  o added skip tracer diffusion in the ML if diffusion in ML is disabled.
+
+shared_omsk0803_aja (2008/07/10) aja:
+  o no code changes but switch shared+extras code to omsk_2008_03 from omsk_2007_10
+    - changes timestats for CM2.2
+
+cm2g_062408_aja (2008/07/11) aja:
+  o incorporated new parameters from CM2G_gm_topo_062608 into CM2.2
+
+epimix_ogrp (2008/07/11) aja:
+  o incorporated new topography from ag.
+  o intended to turn on epipycnal diffusion in CM2.2 (BUT FAILED)
+
+realepi_ogrp (2008/07/14) aja:
+  o turned on epipycnal diffusion for REAL in CM2.2 and GOLD_SIS !!!
+  o turned on resolution scaling of KHTH/TR in CM2.2 and GOLD_SIS
+  o turned on Laplacian viscosity with scaling in GOLD_SIS
+  o updated GOLD_SIS to reflect CM2.2 (except for internal tides)
+
+preperthswitch_ogrp (2008/08/10) aja:
+  o added ability to save initial conditions
+  o bugfix for int_density_dz_linear
+  o made GMwork a 2D diagnostic
+  o changed diagnostics KH_u and KH_v to KHTH_u KHTH_v
+  o replaced diagnostic KHTR to KHTR_u and KHTR_v
+  o added variable partition of blue sw
+
+postperthswitch_ogrp (2008/08/12) aja:
+  o changed ocean_model_GOLD.F90 to work with Perth
+
+epimeke_ogrp (2008/08/18) aja:
+  o extended MEKE to contribute to KhTr (epipycnal mixing)
+  o renamed diagnostic from MEKE_KHTH to MEKE_KH
+  o added two parameters (slightly redundant) to allow for independent
+    scaling of KhTh and KhTr (default = 1)
+  o removed unused arrays for diagnostics (KH_tave, etc)
+  o fixed restarts when using MEKE
+  o fixed halo bug in ML epipycnal mixing code
+
+mlrad_ogrp (2008/08/19) aja:
+  o added thermocline mixing due to ML radiation (from mjh)
+  o switched GOLD_SIS and CM2.2 to use Visbeck
+
+eos_cleanup_ogrp (2008/08/21) aja:
+  o split GOLD_grid type out of GOLD_variables
+  o introduced EOS type
+
+pyrite_ogrp (2008/08/22) aja:
+  o turned off double counting of epipycnal mixing in ML
+  o doubled background diffusion (Henyey profile)
+  o added 0.2/0.2 sub-ML mixing by ML radiation
+  o modified Tsugaru straights topography
+  o switched to "static" 1990 land from dynamic
+  o added the ability to set the coefficients for a linear equation of
+    state at runtime.
+  o changed various code to use tv%eqn_of_state instead of parsing for
+    NONLINEAR_EOS in each module to determine whether to use an equation
+    of state to determine density.
+  o fixed salinity of sea-ice melt water
+  o bugfix for Visbeck factors used in calculating Kh (missing pass-vars)
+
+pyrite2_ogrp (2008/09/05) aja:
+  o added kludge to limit evolution of salt due to constant salinity sea-ice (mjh)
+  o more non-Boussinesq changes implemented
+  o removed RHOS_STAR_ATM variable (replaced with GFS_scale) (changes double-gyre)
+  o fixed erroneous point in CM2.2/ocean_grid.08.29.2008
+
+pyrite3_ogrp (2008/09/11) aja:
+  o Eliminated Boussinesq as a logical from most modules' control structures,
+    relying instead on the value in the ocean_grid_type.
+  o Eliminated two uncalled (and uncallable) routines from GOLD_PressureForce.F90.
+  o Fixed an indexing (sort-of) bug in int_density_dz_generic, that will change
+    answers if that routine is used (but it isn't in the test cases or CM2G).
+  o Fixed a bug, so that OMEGA is now always read in GOLD_set_diffusivity.  This
+    changes the answers in GOLD_SIS.
+  o Turned on BOUND_SALINITY in CM2.2 (default is off in pyrite2)
+
+GOLD_08oct10_ogrp (2008/10/10) aja:
+  (None of these changes affect the solutions of the Boussinesq test cases.)
+  o Set ustar to a non-zero value in wind_forcing_zero if fluxes%ustar is defined.
+  o Changed code to avoid a segmentation fault in set_opacity if fluxes%sw is
+    not associated, but the penetrating shortwave code is active.
+  o Applied test to avoid copying uninitialized values into CS%a_u and CS%a_v
+    over land in vertvisc_coef.
+  o non-Boussinesq changes implemented in GOLD_mixed_layer.F90 and
+    GOLD_mixed_layer_restrat.F90.
+  o Corrected a sign-error in the calculation of intx_dza and inty_dza in
+    int_spec_vol_dp_wright.  (This changes answers in non-Boussinesq models.)
+  o Made optional changes to btstep to improve open boundary conditions, and
+    provided these optional arguments in the calls to btstep from GOLD.F90.
+  o Substantially rewrote PressureForce_Jac_nonBouss to work properly with a
+    nonlinear equation of state and a non-Boussinesq model.
+  o Added functions to GOLD_grid.F90 that return the appropriate units for
+    thicknesses and fluxes.
+  o Added EOS_QUADRATURE run-time option to force numerical evaluation of the
+    integrals of the equation of state, even when analytical options exist.
+  o Changed code to correctly calculate the tidal forcing in non-Boussinesq models.
+  o Fixed bugs in the non-Boussinesq Montgomery potential evaluation of the
+    pressure gradient force and in the compensation for compressibility.
+  o Renamed the run-time option to use an equation of state to calculate density
+    USE_EOS, from NONLINEAR_EOS.  The old name will still work for now.
+  o Added the ability to set the background gustiness at run-time to ocean-only
+    configurations.
+  o Eliminated the remaining permanent "save" variables from
+    coupled_driver/GOLD_surface_forcing.F90, so all information is passed in and
+    out through the interface like all the rest of the code.
+  o Added code to calculate stocks in Ocean_stock_pe, including the salt stock.
+  o Added the salt flux to the total mass flux into the ocean in non-Boussinesq
+    configurations (it does not add to the volume flux in Boussinesq versions).
+  o Added subroutines to calculate mass-integrated tracer stocks.
+  o Eliminated unused memory macros NKML_, NKBL_, NTR_, and MAXTR_.
+  o Eliminated direct references to NKML and NKBL in a number of modules,
+    instead using tv%nk_Rml for the number of variable density layers.
+  o Eliminated all reference to tv%Rml in set_viscosity and pressure gradient
+    code if density is calculated with an equation of state.
+  o Call to initialize_mixed_layer_density eliminated if an equation of state
+    is used to calculate density.
+  o Halo updates of tv%Rml eliminated if an equation of state is used to
+    calculate density.
+
+  (These changes do change the answers, either at the bit level or by fixing
+   genuine bugs.)
+  o Changed the units of all fresh water and salt fluxes in the forcing type
+    from m s-1 to kg m-2 s-1.
+  o Made a couple of mathematically identical (but bitwise different) code
+    changes to clean up btstep and mixedlayer.
+  o Corrected a bug in CorAdCalc, where the Coriolis term depended on the value
+    of thickness in land points adjacent to the ocean.
+  o Corrected a bug in set_viscous_BBL, where the bottom velocity depended on
+    the value of thickness in land points adjacent to the ocean.
+  o Added masking in set_Ent_bl, so that no entrainment is applied over land.
+  o Recalculate Rml in diabatic_driver after frazil so that it is consistent
+    with the changes in temperature.
+  o Changed the DOME test case to not use VERTVISC_X06.  This changes answers.
+  o Eliminated the archaic and deprecated VERTVISC_X06 option.
+  o Changed tridiagonal solver to make vertical viscosity code more robust even
+    when layers are exceptionally thin or drag exceedingly large.
+
+  o Made a series of changes that will eventually enable the model to run with
+    0 layer thicknesses, but which do not change answers even at the bit-level
+    when Angstrom=1e-10.
+
+mica_ogrp (2008/10/11) aja:
+  o N-dependence added to Henyey parameterization (mjh)
+  o Added capability to read Mosaic grid-spec file
+    - missing code to interpret the high-level mosaic file
+
+mithril_ogrp (2008/11/14) aja:
+  o Made additional changes that allow the model to run with 0 layer
+    thicknesses, but which do not change answers even at the bit-level
+    when Angstrom=1e-10.
+  o Reordered the parentheses in diabatic_driver.F90 to be more natural.  These
+    changes are mathematically identical, but differ due to order-of-arithmetic.
+  o Made a code simplification in GOLD_tracer that had previously changed answers
+    unexpectedly, but now gives bitwise identical results in all test cases.
+  o Corrected two bugs in GOLD_lateral_mixing_coeffs, which will change answers
+    when MEKE or Visbeck thickness diffusion are used, including in CM2G.
+  o Corrected the iteration in Continuity_PPM when an absurdly small tolerance
+    for sea-surface height changes are chosen.  This turns out not to change
+    answers in the test cases, but it does change answers in other cases.
+  o Corrected an indexing bug in the calculation of beta in the diagnostic
+    deformation radius calculation.
+  o Eliminated a number of unused diagnostics and other calculations from
+    calc_slope_function.
+  o Hard-coded a minuscule minimum frequency of 1e-17 s-1 for use in the
+    denominator when calculating 1/f^2 to determine the deformation radius.
+  o Eliminated the unused bt_vars_ptrs structures.  This changes a few
+    interfaces but not answers.
+  o Streamlined the interface to btstep by adding a logical variable to indicate
+    whether velocities or volume (or mass) fluxes are used, and by eliminating
+    4 optional arguments and making 2 more optional arguments mandatory.  These
+    changes give bitwise identical answers in all cases.
+  o Switched CM2G to use Mosaic for entire coupled model
+    - previously was only reading Mosaic in ocean
+
+mithril2_ogrp (2008/12/05) aja:
+  o Made changes to CorAdCalc and advect_tracer to avoid problems when 0
+    thickness layers are used.  The solutions are bitwise identical in all
+    test cases.
+  o Corrected the Mosiac initialization code to not conflict with the metric
+    macros for reduced-dimension arrays in the ocean grid type.
+  o Added parentheses to the calculation of hprev in advect_tracer.  This is
+    mathematically identical, but introduces bitwise changes in all cases with
+    tracer advection.  These changes help avoid negative values of hprev and
+    will give rotation-invariant results.  Updated timestats in 4 test cases.
+  o In advect_tracer, hprev is set to 0 if it is negative.  This should only
+    be a concern with 0 thickness layers, and all test cases are unchanged.
+  o Added a separate module, GOLD_interface_heights, to calculate the interface
+    heights exactly was is currently done in GOLD_diagnostics.F90, and removed
+    find_eta from GOLD_diagnostics (although it can still be obtained by
+    referring to that module).
+  o Added fields of the bathymetry at velocity points to the ocean grid type.
+  o Added diagnostics for the 3-D opacity by band and for the surface
+    chlorophyll used to calculate the opacity.
+  o Added a new routine, opacity_end, to clean up allocated data at termination.
+  o Added option to correct the mean depth of the absorption of shortwave
+    radiation below the mixed layer.
+  o Added option to use 2*omega in place of f in the mixedlayer code.
+
+mithril3_ogrp (2008/12/09) aja:
+  o Added the ability to set the salinity initial condition from a different
+    file from temperature.
+  o Multiplied the TKE available with ML_RADIATION by MSTAR.
+  o Added a new coding for the TKE radiation from the base of the mixed layer
+    (selected with #define ML_RADIATION_CODING 2).  This reformulation greatly
+    reduces the amount of mixing with the same parameters, to more sensible
+    values.  The default is to use the old formulation.
+
+pre_perth_plus_ogrp (2009/1/14) aja:
+  o Added an optional bottom boundary layer diffusivity to use only for passive
+    tracers, KD_BBL_TR, to enable the use of significant bottom fluxes.  The
+    default value of KD_BBL_TR, 0.0, does nothing.
+  o Corrected the calculation of visc%bbl_thick_[uv] and visc%kv_bbl_[uv] for
+    non-Boussinesq models with channel drag turned on.
+  o Corrected a bug in converting from m to thickness units with a two buffer
+    layers in a non-Boussinesq model.  Answers are unchanged in test cases.
+  o Fixed bugs in GOLD_mixed_layer.F90 and GOLD_tracer.F90 that caused problems
+    with 0 thickness layers.
+  o Added an option (#undef MATCH_MASSLESS_TARGETS) to allow the density of
+    massless layers to be set by vertical diffusion rather than adhering to
+    the target densities.  (The default is #define MATCH_MASSLESS_TARGETS.)
+  o Tag made to bracket changes for perth-plus shared/atmos code
+  o Corrected a bug (from 11/3/08) in GOLD_entrain_diffusive to avoid both
+    negative entrainment rates and negative thicknesses.  Two timestats files
+    were updated, and volume conservation was restored for CM2G.
+
+intermediate_perth_plus_no_opt_ogrp (2009/1/21) aja:
+  o Modified API to use perth_2008_10 shared/atmos code
+    - config_src/coupled_driver/ocean_model_GOLD.F90
+    - config_src/solo_driver/atmos_ocean_fluxes.F90
+    - src/tracer/GOLD_OCMIP2_CFC.F90
+    - N.B. these changes within GOLD do NOT change answers
+    - N.B. optimizations in the atmos code DO change answers
+      so this tag was created using intermediate_perth_plus_no_opt_ogrp
+      on shared/atmos code too.
+
+GOLD_02jan28_ogrp (2009/1/27) aja:
+  o Updated timestats for CM2 models using perth_2008_10 atmos/shared code
+  o fixed compile time bug (for external platform, from WFC) in GOLD_domains.F90
+
+mithril_presort (2009/2/10) aja:
+  Answers do not change:
+  o Added ustar_bbl and TKE_bbl elements to the vertvisc_type.
+  o Split the subroutine set_BBL_diffusivity from set_diffusivity, with a
+    new public interface, to enable the order of the mixed layer and interior
+    diffusion calculations to be permuted.
+  o Added the option to call the mixedlayer code before or after interior
+    diffusion, or both (in a Strang-split mode), depending on ML_MIX_FIRST.
+  o Added two new optional arguments to mixedlayer so that the diagnostics will
+    be correct even if there are two calls to mixedlayer (Strang splitting) per
+    timestep.
+  o Restructured mixedlayer to work on 2-D (i-/k-) local arrays, in preparation
+    for having the option to sort.  Answers are identical in test cases.
+  o Corrected intent of TKE_river (from out to in), and eliminated unneeded
+    variables u0 & v0 in GOLD_mixedlayer.
+
+  Changes answers:
+  o Restructured calculation of eaml in mixedlayer to accommodate resorting.
+    This is mathematically identical, but results in order-of-arithmetic changes.
+  o Changed a limit in mixedlayer so that evaporation from a layer is always
+    positive.  This results in order EPSILON changes in some cases.
+  o Changed mixedlayer_convection to ensure that when a new mixed layer is
+    formed, it cannot make layer 1 have negative thickness.  Also, added code
+    to draw mass from other layers if the new mixed layer is less than an
+    Angstrom thick.  Finally, rewrote the expressions for the newly formed mixed
+    layer's properties to keep precipitation at the temperature of layer 1 even
+    when the lightest massive layer is not layer 1 (this last one is an order of
+    arithmetic change).
+
+GOLD_09feb12_ogrp (2009/2/12) aja:
+  o Added option ML_RESORT to sort layers by density rather than doing
+    convective adjustment of apparently unstable profiles.  This is off by
+    default, but dramatically improves the high-res global runs when used.
+  o Added a new option, USE_LOCAL_PREF_CORRECT, to GOLD_mixed_layer.F90 that
+    fixes an inconsistency with USE_LOCAL_PREF, doing what was originally
+    intended.  At a later date this will replace the original implementation.
+  o Added an error message to solo_driver/GOLD_driver.F90 if a run segment is
+    started after the end time.  Previously this led to an ill-documented crash.
+  o Updated CM2G and GOLD_SIS to use new mixed layer settings used in CM2G63L
+
+mithril_post_sort_ogrp (2009/2/12) aja:
+mithril_plus_ogrp (2009/2/12) aja:
+  o switch GOLD_SIS and CM2G63L to new ML sorted method
+
+mithril_pre_rivers_split_ogrp (2009/2/19) aja:
+  o Added the ability to set the power of (dx/Ld) used in the resolution
+    function for scaling the Laplacian viscosity, diffusivity and thickness
+    diffusion, via the run-time parameter KH_RES_FN_POWER.
+  o bugfix for GOLD_set_diffusivity to avoid crash in debug mode (does not
+    change answers)
+
+mithril_post_rivers_split_ogrp (2009/2/19) aja:
+  o split fluxes%rivers into fluxes%liq_runoff and fluxes%froz_runoff
+
+mithril_post_precip_split_ogrp (2009/2/19) aja:
+  o deleted fluxes%precip which has been replaced by fluxes%liq_precip
+    and fluxes%froz_precip
+
+mithril_pre_precip_reorg_ogrp (2009/2/25):
+ Changes after mithril_post_precip_split_ogrp - interfaces change but no answer changes:
+  o Assorted code clean up in GOLD_MEKE.F90.
+  o Split MEKE_CS into a public type MEKE_type in GOLD_MEKE_types and a
+    private control structure MEKE_CS inside of GOLD_MEKE.
+  o Merged MEKE_diag_init into MEKE_init, eliminating MEKE_diag_init.
+  o Changed units of FrictWork, MEKE%mom_src & MEKE%GM_src from m3 s-3 to W m-2.
+  o Moved FrictWork from diag to the control structure of GOLD_hor_visc.
+  o Added the option ML_PRESORT_CONV_ADJ to do convective adjustment between the
+    pieces of the mixed layer before sorting in GOLD_mixed_layer.F90.
+ These changes can change answers.
+  o Extensively rewrote GOLD_MEKE, to correct inconsistencies of units and add
+    lateral diffusion of MEKE.  The answers will change if MEKE is active.
+
+mithril_post_precip_reorg_ogrp (2009/2/25):
+  o Tidied up fresh water forcing in fluxes structure
+    - deleted PminusE
+    - added virt_precip (for salt restoring)
+    - in GOLD_SIS/CM models, rather than accumulate FW forcing in PminusE
+      we now keep components separate
+    - added parenthesis in GLD_mixed_layer() to obtain same answers
+      (albeit with an option for do render same answers in solo mode)
+  o No answer changes
+
+mithril_post_runoff_hflx_ogrp (2009/2/26):
+  o Added runoff_hflx and calving_hflx to fluxes and IOB structures
+    - these contain river/calving heat content (reference to 0 deg. C).
+  o Added flag use_calving_heat_content and use_river_heat_content to
+    NOT use SST for calving/runoff input and (if associated) use the
+    _hflx heat content fluxes.
+  o Replaced the logical option ML_PRESORT_CONV_ADJ with ML_PRESORT_NZ_CONV_ADJ,
+    the number of layers to do convective adjustment upon before sorting.
+
+mithril_plus2_ogrp (2009/02/28):
+  o Changed CM2G63L configuration
+    - turned on local pref (correct) in mixed layer code
+    - turned on convective adjustment of mixed layer (just 2 layers)
+      prior to sorting water column
+  o GOLD_diabatic_driver.F90 ***FORCE MOVED TAG***
+    - fix for negative salinities (call was in wrong place)
+
+mithril_plus3_ogrp (2009/03/06):
+  o added module to supply non-intrinsic function ACOSH
+  o updates from Jasmin for tracer/TOPAZ code
+  o update from Will for compiler issues in GOLD_diag_mediator
+  o rearranged "if" test in GOLD_mixed_layer.F90 (out of bounds issue when
+    debugging)
+  o CHANGED PARS in CM2G63L: turned off USE_LOCAL_PREF_CORRECT
+  o CHANGED PARS in CM2G63L: switch to presort_conv to 4 from 2
+
+mithril_plus4_ogrp (2009/04/10):
+  o bug fix for nbands>2: wavelengths(2) was unset - only affects TOPAZ
+  o Added DEBUG_TRUNCATIONS switch to enable a number of diagnostics that are
+    useful for debugging truncations.
+  o Added new diagnostics of the properties just before diabatic is called and
+    of the velocity changes due to inversion of the continuity solver.
+  o Added a new option (RESCALE_BT_FACE_AREAS) to limit the face area in the
+    barotropic solver based on the difference between the summed harmonic mean
+    thicknesses and the harmonic mean of the summed thicknesses.  By default
+    this is off, but the CM2G63L example was changed to use this option.
+  o Added an additional call to adjust_salt after the first call to mixedlayer,
+    to avoid negative salinities from badly behaved sea ice.
+  o Added code to make sure that TKE_river is never negative in bulkmixedlayer.
+  o Added a new option (MONOTONIC_CONTINUITY) to use the Colella and Woodward
+    monotonic limiter with the PPM continuity solver.  The default is to use a
+    simple postive-definite limiter.
+  o Added a new option (USE_LIMITED_PATM_SSH) for using the full (unlimited)
+    atmospheric (and sea-ice) pressure in correcting the sea surface height.
+  o Added parameter logging for GOLD_surface_forcing.F90.
+  o Added sanity check of surface state that brings down the model if
+    ridiculous values are encountered. Enable with CHECK_BAD_SURFACE_VALS
+  o Merged src/tracer changes from tracers_global_minmax_nnz
+
+bt_face_areas_fix_ogrp (5/1/09):
+  o Added the function is_NaN to GOLD_domains, to test for a NaN.
+  o Added chksums to GOLD_set_viscosity and GOLD_barotropic if DEBUG is set,
+    along with a new flag, DEBUG_BT, to enable the highest frequency checks.
+  o Extensively revised GOLD_MEKE, including adding a vertvisc_type argument,
+    correcting numerous bugs, and changing input parameters to make MEKE
+    actually work.
+  o Added the resolution-scaling function as an available diagnostic.
+  o Revised the wave-speed calculation to ensure that the first-mode baroclinic
+    wave speed is calculated properly, even when the first-guess speed is an
+    underestimate.  This changes answers with resolution scaling.
+  o Corrected a bug in the loop bounds with RESCALE_BT_FACE_AREAS defined but
+    not SYMMETRIC_ARRAYS, so that the code now reproduces across PE count.  This
+    changes answers in the CM2G63L test case.
+
+mithril_plus5_ogrp (5/1/09):
+  o Changed solver for the gravity wave speed to converge more quickly, and
+    maybe more robustly.  This changes answers slightly with resolution scaling.
+
+mithril_plus6_ogrp (5/11/09):
+  o Added RECLAIM_FRAZIL option to ensure that no frazil flux is passed to the
+    ice if the sea surface temperature is above freezing, even if there are
+    multiple calls to diabatic in each coupling timestep. 
+  o CM2G63L configuration change:
+    - turned off sorting (ML_RESORT)
+    - turned on full weight of ice (USE_LIMITED_PATM_SSH)
+    - turned on proper pressure dependence in ML (USE_LOCAL_PREF_CORRECT)
+  o added run-time parameters for bad surface value testing
+
+mithril_plus7_ogrp (5/19/09):
+  o initializing uh_aux=0 and vh_aux=0 in GOLD_continuity_PPM.F90
+
+mithril_plus8_ogrp (5/29/09):
+  o Added option LIMIT_BUFFER_DETRAIN to limit buffer layer detrainment based
+    on neighboring values of the thickness of the mixed and buffer layers in
+    neighboring columns.  By default this is off and answers are identical.
+  o Fix loop bound in GOLD_tracer.F90 to avoid referencing uninit'd values
+  o Removed unnecessary logical test to avoid referencing uninit'd value
+  o Initialize grid metrics in mosaic code to avoid having uninit'd values in halo
+
+GOLD_preq2_ogrp (5/29/09):
+  o Switched shared/atmos/ice/land codes to quebec_prerelease2
+    - this code no longer compiles with perth_2008_10 shared code
+    - the numbers change for GOLD_SIS/CM* models. To recover use
+      time_interp_nml perthlike=.TRUE.
+
+GOLD_preq3_ogrp (5/29/09):
+  o turned on LIMIT_BUFFER_DETRAIN in CM2G63L (and hence ESM2G)
+
+GOLD_quartz_ogrp (7/31/09):
+  o Revised solo_driver/user_surface_forcing.F90 to provide a much more
+    explicit example for users to subsequently edit.  This also changed the
+    interfaces in that file.
+  o Added a new subroutine, set_viscous_ML, to GOLD_set_viscosity which, along
+    with the new run-time argument DYNAMIC_VISCOUS_ML, allows the depth over
+    which the near-surface viscosity is elevated to be determined dynamically
+    using a bulk Richardson number criterion.  By default, this new option is
+    off and the answers do not change.  The new option can stabilize the model
+    substantially in shallow waters when shears or wind stresses get large.
+
+GOLD_quartz2_ogrp (8/4/09):
+  o Corrected 2 bugs with DYNAMIC_VISCOUS_ML that caused failure to reproduce
+    across PE-count: did halo update on wind stresses and corrected the logic
+    in vertvisc_coef for determining whether an interface is in the viscous
+    surface boundary region.  Also added new diagnostics.
+
+GOLD_quartz3_ogrp (8/30/09):
+  o Added ability to calculate diagnostics for vertically summed lateral
+    advective and diffusive tracer fluxes in GOLD_tracer.F90, along with a new
+    interface add_tracer_2d_diagnostics, to register the arrays for them.
+  o Added diagnostics for vertically integrated temperature and salinity fluxes.
+  o Corrected logic bugs with NONLINEAR_BT_CONTINUITY defined and added a new
+    option to control how often the barotropic face areas are updated.
+  o Changed parameters in CM2G63L to reflect final configuration for ESM2G
+
+GOLD_quartz4_ogrp (9/14/09):
+  o Changed GOLD_mixed_layer.F90 to avoid division by 0 in the very rare
+    instance when the density of a detraining buffer layer _exactly_ matches the
+    density of an interior layer.  Previously NaNs occurred in these instances,
+    and the answers are unchanged otherwise, so no previous runs should be
+    compromised by this bug.
+
+GOLD_quartz5_ogrp (9/18/09):
+  o Corrected a bug in GOLD_diagnostics that led to a segmentation fault when
+    thicknes mixing is used and vh_rho is in a diag table but vhGM_rho is not.
+
+GOLD_quartz6_ogrp (10/01/09):
+  o Added parentheses in GOLD_continuity_PPM.F90 where 3 numbers are added.
+    This reproduces the answers we were getting.
+  o Eliminated redundant values from the depth list in GOLD_sum_output, and also
+    provided subroutines to write and read the depth list.  Answers do not change
+    but new run-time parameters can permit a greatly truncated depth list that
+    would change diagnostic potential energies.
+  o Added missing_value attributes to Z-space output.
+  o Added a new file to allow tracers to be initialized directly from Z-space
+    input files, provided they are on the model's horizontal grid and values
+    have been extrapolated as necessary to cover all ocean points.
+  o Modified GOLD_mixed_layer so that the mixed layer will always be at least
+    HMix deep, even if the initial estimate of TKE is 0.
+  o Changed the denominator in the formula for converting salinity restoring 
+    into a fresh water flux to be more stable with low surface salinities.
+  o Fixed a bug that caused the total mass to be misreported in non-Boussinesq
+    runs with H_TO_KG_M2 not set to 1.  The solution itself is unchanged.
+  o Added KHTR_MIN and KHTH_MIN as run-time parameters setting the minimum
+    values of thickness and along-isopycnal tracer diffusivities.
+    
+esm2g_quebec_200910_ogrp (retrospectively tagged):
+  o One file different from GOLD_quartz6_ogrp:
+    GOLD_mixed_layer.F90 added river heat fluxes to budget (see below)
+
+riga_prerelease2_ogrp (retrospectively tagged):
+  o Changed the interface to calc_slope_function to add the thermodynamic
+    variables, and potentially to allow the interface heights to be passed in as
+    an argument.  This was needed to allow the interfaces to be calculated
+    properly in a non-Boussinesq model using find_eta, and will eventually be
+    used to calculate the isopycnal slopes more carefullly.  This does not
+    change answers in a Boussinesq model or without variable mixing. 
+  o Added OpenMP directives to 6 files.  The answers are bitwise identical.
+  o Renamed the misnamed option JACOBIAN_PGF ANALYTIC_FV_PGF.  Using
+    JACOBIAN_PGF will now cause a fatal error with an appropriate message.
+  o Corrected bugs in the memory allocation for the diagnostics T_adx_2d,
+    T_diffx_2d, etc.
+  o Changed the archaically named macros X1 and Y1 to NX_HALO and NY_HALO in
+    all places, although X1 and Y1 will still work for now.
+  o Moved the definitions of NXMEM and NYMEM to GOLD_memory_macros.h from the
+    numerous GOLD_memory.h files, also cleaning up the GOLD_memory.h files.
+
+GOLD_new_chksum_ogrp (11/23/09):
+  o Corrected a bug in the mass conservation diagnostic that caused false
+    non-conservation in non-Boussinesq mode with a salt flux.
+  o Added effects of runoff_hflx and calving_hflx to tv%TempxPmE, so that the
+    heat budget is closed properly.  This is a diagnostic change only, and
+    only affects runs using LM3.
+  o Removed the mass of salt from the total ocean mass to give the correct stock
+    of ocean fresh water mass when in non-Boussinesq mode.
+  o Reworked the inconsistency checking in GOLD_file_parser to correctly trap
+    inconsistent '#def' and '#undef' settings and stop with a fatal error.
+  o If ADIABATIC is defined, make sure that BULKMIXEDLAYER is not also set, and
+    that no mixing parameterization settings are used anywhere.
+  o Corrected the error message that is issued if a layout is set inconsistently with the
+    total number of processors in dynamic memory mode.
+  o Corrected a bug in the setup of the auxiliary domain for checking that
+    redundant values are identical with symmetric memory.  This bug was
+    introduced to the GOLD_ogrp branch on 9/26/08, and can corrupt memory
+    when DEBUG is set with SYMMETRIC_MEMORY, but otherwise does nothing.
+  o Ensured that all velocity- and q-point metrics are set properly with
+    SYMMETRIC_MEMORY and internally generated grids (reading from a file or
+    mosaic was already OK).
+  o Added hchksum, alternative to chksum that tests halo state.
+  o Made zonal_mass_flux and meridional_mass_flux into separate subroutines,
+    instead of being "contain"ed in continuity_PPM.
+  o Further reformulated GOLD_continuity_PPM to have separate subroutines for
+    calculating the fluxes, eliminating repeated code.  No answers change.
+  o Upgraded hchksum to work properly in symetric mode.
+    - Added qchksum, uchksum and vchksum.
+  o Fixed declaration of local work array, wt_v, in GOLD_barotropic.F90
+  o Fixed assymetry in flow dependence for Energy dissipation option in
+    GOLD_CoriolisAdv.F90
+
+GOLD_Riga_answers_ogrp (11/24/09):
+  o Rearranged code in GOLD_continuity_PPM.F90 to use two new subroutines,
+    zonal_flux_adjust and meridional_flux_adjust, to infer the barotropic
+    velocity changes that give the desired summed fluxes.  Answers are bitwise
+    identical.
+  ### This tag used as a branch point for branch "GOLD_Riga_diagnostics_ogrp"
+
+diagnostics_for_Riga_ogrp (on branch GOLD_Riga_diagnostics_ogrp) (12/16/09):
+  This branch adds diagnostics, but no answers are allowed to change.
+  o Added separate diagnostics of the individual components of the surface
+    heat fluxes (latent, sensible, and longwave), and of the effective heat
+    carried into the ocean (relative to 0 C) by introduction of mass.
+  o Added a heat_restore element to the forcing type, although for now this is
+    set to 0 in solo_driver/GOLD_surface_forcing, with the restoring appearing
+    in lw_lat_sens, to avoid changing any answers.
+  o Changed some diagnostics to only be allocated and set if DEBUG_TRUNCATIONS
+    is defined.
+  o Added 2-d diagnostics of the vertically integrated heat and salt and the
+    column thickness and mass.
+  o Added the standard_name to some diagnostics.
+  o Added interfaces for writing static fields specified via the diag_table.
+  o Eliminated unused elements of the diag_ptrs type.
+  o Added a new parameter, KD_ADD, to add an uniform additional diffusivity.  By
+    default KD_ADD is 0, and answers are unchanged.
+Tag ESM2G_Riga_ogrp:
+  Same as diagnostics_for_Riga_ogrp with two bug fixes merged in from GOLD_ogrp.
+  o Made p2d and p3d types available from GOLD_variables.
+  o Added the subroutines register_Zint_diag & calc_Zint_diags to GOLD_diag_to_Z
+    to enable interface variables to be written out in depth space.
+  o Added diagnostics of the diapycnal heat and salt fluxes to diabatic, both in
+    layer space and interpolated to depth space, and of the diffusivity in depth
+    space. A new argument was also added to diabatic_driver_init to enable this.
+  o Corrected a bug in the calculation of the diapycnal diffusivity from internal
+    tides.  With this bug, this diffusivity is too small by the ratio of the
+    depth of a layer to the depth of the ocean.  #define RIGA_ITIDE_BUGS to
+    recover the old answers.
+  o Corrected a bug introduced with the previous bug-fix that set the tidal
+    amplitudes to 0 with INT_TIDE_DISSIPATION, without #define RIGA_ITIDE_BUGS.
+riga_201006_ogrp (on branch GOLD_Riga_diagnostics_ogrp) (7/22/10):
+  o merged in changes from riga_201006
+    - fix for large files (GOLD_restart.F90)
+    - two minor changesin GOLD_entrain_diffuse.F90
+    - three files in src/tracer
+    - CM2G/timestats were incorrectly based on CM2.2 executable
+
+pre_Riga_merge_ogrp (12/16/09):
+  o Reordered the vertical sums of the initial transport anomalies in
+    GOLD_continuity_PPM for efficiency and cleanliness.  These are
+    mathematically identical but the answers change at the bit level.
+  o Added parentheses in GOLD_mixed_layer where 3 or more terms are summed, and
+    got rid of the old "USE_SOLO_FW_PARENTHESIS" option.  All answers are
+    mathematically identical, but answers change at the bit-level due to order
+    of arithmetic changes, and the answers then cascade to larger values.
+  o Replaced the (:,:) syntax for a handful of input arrays with (NXMEM_,NYMEM_),
+    etc., for greater clarity of intent and to catch array-size problems at
+    compile time.
+  o Reworked the internal interfaces in GOLD_continuity_PPM.F90 for greater
+    simplicity.
+  o Corrected a bug in GOLD_tracer_Z_init that some compilers catch.
+  o Added a warning message if the day is set to a large value due to excessive energy.
+  o Added the capability to carefully diagnose the effective open face areas
+    from the layer continuity solvers, and then use this for the barotropic
+    mode.  This required the addition of a new type, BT_cont_type, and new
+    optional arguments to several interfaces.  This option is off unless
+    USE_BT_CONT_TYPE is defined.  Turning this on gives a smoother free surface
+    height and reduces the initial (shock) truncations in the test cases, but at
+    a 10% increase to model run-time in GOLD_SIS on 30 PEs.
+  o Initialized m (the time level) in solo_driver/GOLD_driver.F90.
+  o In solo_driver/GOLD_driver.F90, moved the call to close the namelist file
+    before the call to check for errors in the namelist, to avoid I/O problems
+    on some IBM computers.
+pre_Riga_merge_ogrp tag was made before merging in the diagnostics_for_Riga_ogrp
+block of code.
+
+post_Riga_merged_ogrp (12/16/09) - also includes changes from
+  diagnostics_for_Riga_ogrp, but answers are changed from Riga.
+
+pre_obcs_merge_16feb10_ogrp (2/16/10):
+  o updated diag_table in global, GOLD_SIS and CM2G63L to turn on static fields
+  o extended extrapolate_metrics in GOLD_grid_initialization.F90 to work with
+    Mosaic files in non-periodic domains.
+  o Rearranged the calculation of the lw_lat_sens component of fluxes so that
+    the answers will be unchanged when this combined component is eliminated.
+    Also separated the restoring heat flux from lw_lat_sens.  This is
+    mathematically identical, but the answers change at the bit-level.
+  o Eliminated the lw_lat_sens and net_heating elements of the forcing type.
+    Instead the individual heat flux components are to be specified, eliminating
+    redundant ways to set the heat flux.  The answers are bitwise identical
+    during this change (they changed with the previous entry).
+  o Added an argument to re-calcuate the contents of the BT_cont_type to the
+    corrector call to the continuity solver.  This seems to largely eliminate
+    any velocity trunctations when USE_BT_CONT_TYPE is set, and does nothing
+    otherwise.
+  o Added new subroutines (publicly calculate_TFreeze) to calculate the
+    freezing point potential temperature to GOLD_EOS, along with two options for
+    the freezing point - linear and one based on Millero (1978).  All instances
+    where the freezing point is calculated are now done via this subroutine,
+    and by default all answers are bitwise identical.
+  o Corrected the axes on the diagnostic "rvxv".
+  o Eliminated the archaic partial vertical axis for "mixed layer" diagnostic
+    variables. This has not been used for some time - all diagnostics are single
+    layer or full depth.
+  o If the options USE_RIVER_HEAT_CONTENT or USE_CALVING_HEAT_CONTENT are
+    defined, the corresponding components of fluxes are now required.  In the
+    previous code, if they were not defined, it was assumed that the water
+    entered at 0 C.  Now it is a fatal error if they are not defined.
+  o Added an optional argument to restart_init to specify the root for the
+    restart file names.
+  o Added an optional timeunit argument to create_file and reopen_file, and
+    eliminated the time_units module variable from GOLD_io.F90.
+  o Modified GOLD_sum_output to appropriately use time units other than one day.
+
+post_obcs_merge_16feb10_ogrp (2/16/10):
+  o Merged changes from branch OBCS_merge_from_obcs_m1i_ogrp
+    which was created to isolate the OBCs change written by Mehmet on his
+    branch obcs_m1i
+    Note: these updates provide the core functions for new OBCS and radiation
+    conditions and do not affect any existing experiments BUT the
+    configuration of the radiation conditions have not yet been properly
+    modularized to enable easy on/off control 
+
+pre_riga_switch_ogrp (3/5/10):
+  o A separate subroutine called set_flather... is added to prescribe the 
+    locations of the boundary conditions using a mask
+  o Seperated out the DOME specific initialization from GOLD_initialization
+    as a template for adding more experiments described within the code
+  o this tag made prior to switching to Riga shared code
+
+switch_to_riga_ogrp (3/5/10):
+  o this tag or later needed to use Riga shared code
+  * This is not the Riga version of GOLD. It is the version of GOLD_ogrp
+    branch that can actually run with Riga shared code.
+
+post_atmos_am2_mess_ogrp (3/10/10):
+GOLD_10mar10_ogrp (3/10/10):
+  Merged in changes (additional diagnostics and a significant bug-fix) that had
+  been added on the Riga_diagnostics_ogrp branch:
+  o Made p2d and p3d types available from GOLD_variables.
+  o Added the subroutines register_Zint_diag & calc_Zint_diags to GOLD_diag_to_Z
+    to enable interface variables to be written out in depth space.
+  o Added diagnostics of the diapycnal heat and salt fluxes to diabatic, both in
+    layer space and interpolated to depth space, and of the diffusivity in depth
+    space. A new argument was also added to diabatic_driver_init to enable this.
+  o Corrected a bug in the calculation of the diapycnal diffusivity from internal
+    tides.  With this bug, this diffusivity is too small by the ratio of the
+    depth of a layer to the depth of the ocean.  #define RIGA_ITIDE_BUGS to
+    recover the old answers.
+  o timestats for CM2G63L were erroneous due to use of old vert_visc code
+
+GOLD_22mar2010_ogrp (3/22/10):
+  o fix in GOLD.F90:write_static_fields() for symmetric mode
+    - global expt was hanging because geolonv axis was being written on axes-u
+  o We were inadvertently using the CM2.2 executable to create the CM2G
+    results.
+    - CM2.2 has a user_revise_forcing.F90 file that adds mixing in specific
+      overflow regions.
+    - CM2G and CM2G63L do not have this source file (I think intentionally)
+  o cartesian grid initialization was not initializing south_lat to 0. by
+    default
+  o added "circle_obcs" experiment to test OBC code
+    - uses 1 processor (not supplying GOLD_memory.h [yet])
+
+GOLD_oil_25may2010_ogrp (5/25/10):
+  o Added the ability to re-initalize the OCMIP2_CFCs to new values in an
+    on-going run, using the flag #define TRACERS_MAY_REINIT.
+  o Changed the diag argument of set_diag_mediator_grid from a pointer to
+    a diag_ptrs type to a variable of type diag_ptrs.  No answers change.
+  o Added a term to allow the surface stress to be calculated implicitly from
+    the ocean speed in the vertical viscosity calculation.  As the term that
+    has been added is currently set to 0, no answers change.
+  o Added the new option, BBL_USE_EOS, to use the nonlinear equation of
+    state at the bottom pressure to determine the thickness of a stratification
+    limited bottom boundary layer.
+  o Created subroutines in GOLD_set_viscosity to interpolate between velocity
+    points.  The answers are identical to before.
+  o Added prototype changes to incorporate an ice-shelf model into GOLD.  These
+    changes compile, and reproduce previous answers when the ice shelf is not
+    used, but the ice-shelves themselves have not been tested.
+  o Made several upgrads to ideal_age_example, including adding the ability to
+    reinitialize tracers in the middle of a run, turn individual tracers on and
+    off at run-time, and added an age tracer ("age_dated") that starts aging
+    only after a specified time, IDEAL_AGE_DATED_START_YEAR.
+  o Added changes to make the ice shelf code work without changing answers when
+    the ice shelf is unused or the shelf_area is set to 0 everywhere.
+  o Added run-time options to improve the iteration in GOLD_continuity_PPM.F90
+    for the barotropic accelerations that give a specified total transport.
+  o Added the ability to specify minimum boundary layer viscosities at run-time
+    via KV_BBL_MIN and KV_TBL_MIN.  By default these are 0.
+  o Added code to use an upwind-biased thickness in the vertical viscosities
+    near the surface under ice sheets, analogous to what is already done near
+    the bottom.
+  o Added code to set fluxes%p_surf in the solo forcing code, so that ice
+    shelves can subsequently add their pressure to it.
+  o Made additional changes to the ice shelf code and added user_shelf_init.F90.
+    The model now works with an idealized ice shelf.
+  o When the BT_CONT_type is used, use previous values of the barotropic
+    velocity to avoid inverting for overly large values.  This changes answers
+    only when the BT_CONT_type is used (as in the circle_obcs test case).  Also
+    added the BT_STRONG_DRAG run-time option, which changes the estimation of
+    the drag per barotropic time step when a large fraction of the momentum is
+    extracted per baroclinic time step.  Answers are unchanged in most test
+    cases, and reference solutions updated with circle_obcs.
+  o Rearranged the code in btstep to put the open boundary conditions into
+    separate subroutines that are contained (for now) within btstep.  Also
+    corrected some indexing bugs with the open boundary conditions, which
+    fortunately do not change any answers in our existing test cases.
+  o Changed coding of open boundary conditions to make the various options
+    use code in a more standard way. This includes using the same OBC masks
+    (OBC%OBC_mask_u and OBC%OBC_mask_v) for all open boundary condition points
+    and adding the OBC_kind_[uv] arrays, which can be set "named" integer values
+    like OBC_SIMPLE, OBC_NONE, or OBC_FLATHER_[EWNS] indicating the form to use.
+  o added oil_tracer module 
+    - affects GOLD_tracer_flow_control, GOLD_file_parser and adds oil_tracer
+
+GOLD_11jun2010_ogrp (6/11/2010):
+  o Modified the calculation of the characteristics in Ratiation_Open_Bdry_Conds
+    to avoid NaNs when the spatial velocity changes happen to be exactly -1e-20.
+    This does not change answers in the test cases, but could in rare instances.
+  o Made further changes to the OBC coding in GOLD_barotropic to clarify the
+    coding, but while still preserving answers.
+  o Added fields to the ocean_OBC_type to specify the velocities or values of
+    the surface height (or column mass anomaly) in the outer domain, along with
+    additional restructuring of the OBC, while still preserving answers.
+  o Further reworked the barotropic OBC code to make the gravity wave speed and
+    the effective thickness at velocity points more obvious.  Answers still are
+    unchanged.
+  o Encapsulated all the barotropic OBC data in a private type and made the
+    barotropic OBC subroutines stand-alone, rather than included in btstep.
+  o Changed the estimate of the total thickness for the barotropic OBCs from
+    a funny average of D and D+eta to the initial value of D+eta.  The reference
+    solution doesn't change, but I don't know why not.
+  o Created the new module GOLD_open_boundary & moved Radiation_Open_Bdry_Conds
+    into it.  Several interfaces change, including the addition of run-time
+    options to set the parameters for the open boundary conditions.  Answers are
+    bitwise identical.
+
+GOLD_oil_11jun2010_ogrp (6/11/2010):
+  o added temperature dependent oil decay
+
+GOLD_oil_14jun2010_ogrp (6/14/2010):
+  o Fixed T-dependent decay rate (parameter was not being read/set properly)
+  o Fixed intent(inout) for vertvisc (pathscale compiler caught this)
+
+GOLD_riga_201006_premerge_ogrp (7/28/2010):
+  o Updated the error messages in GOLD_checksums to give the message give to
+    the call, identifying the problem field.
+  o Check whether the pointers are associated before doing checksums on 
+    visc%nkml_visc_u and visc%nkml_visc_v.
+  o Added the io_layout to the GOLD_domain_type, enabling the use of a different
+    layout for I/O than the computational domain decomposition.  This is enabled
+    with `#define NXPROC_IO ??` and  `#define NYPROC_IO ??`.  NXPROC_IO must be
+    a factor of NXPROC, and similarly for NYPROC_IO.
+  o Added new subroutines in GOLD_io for file_exists and GOLD_read_data to use
+    the I/O layout, and added domain arguments (when appropriate) to the
+    open_file commands to enable the use of the I/O Layout.
+  o Modified restore_state to use the I/O Layout, and also to correctly read in
+    decomposed restart files with symmetric memory.  This latter change will
+    change answers with symmetric memory if mppnccombine is not used on the
+    restart files, but reproduces answers in all other cases.  No known runs
+    are affected by this change.  Non-symmetric memory runs can now use
+    decomposed restart files from a symmetric memory run and give identical
+    answers.
+  o Added domain arguments from numerous file_exists calls for use with the
+    I/O Layout.
+  o Changed the way the coordinate-axis labels are read with a mosaic grid-spec
+    to avoid reading in global 2-d arrays on each processor.  Also added code
+    to use the I/O Layout if it has been set up.
+  o The previous attempt to enable pass_var to update a corner point didn't work
+    as expected, so a new optional argument, position, was added to pass_var.
+  o GOLD_define_io_domain offered as a public interface to mpp_define_io_domain.
+  o pass_var used to update the halos in set_metrics_from_mosaic.
+  o Moved the halo updates for pbce, eta_in, and eta_PF out of btstep and do a
+    full halo update on fluxes%p_surf
+  o Added a new subroutine, set_dtbt, that determines the maximum stable value
+    for DTBT and sets DTBT based on this maximum value.  Negative or 0 values
+    of DTBT trigger its use, and the frequency with which this is updated is
+    determined by DTBT_RESET_PERIOD.  The value of dtbt and its maximum value
+    are now written by PE 0 the first call to btstep or when it changes.
+  o Added an optional argument, add_max, to find_face_areas that causes the
+    maximum depth plus an increment to be used in the face areas.  SSH_EXTRA
+    sets the value of the SSH increment used in the initial call to set_dtbt. 
+  o Corrected a number of the comments in the various GOLD_input files.
+  o Fixed a sign error in the user-specified buoyancy damping.
+  o In ocean_model_flux_init, moved the get_GOLD_input and close_param_file
+    calls outside of an if loop so they are only needed once.
+  o Revised GOLD_file_parser to read in the relevant lines upon initialization
+    and store them internally.  This will be vastly more efficient on some
+    systems.  With post-riga shared code, it will be possible to read the
+    parameter file only on the root PE and broadcast it, but this code is
+    commented out for now.  This merges most of Rusty Benson's changes onto
+    the GOLD_ogrp branch.
+  o Added the ability to report any unused parameters with REPORT_UNUSED_PARAMS
+    and to abort if there are any with FATAL_UNUSED_PARAMS.  Also logs the
+    settings and version for GOLD_file_parser.  A new optional argument to
+    open_param_file (checkable) allows this to be disabled for a particular
+    param_file.
+  o Removed the archaic CHECKPARALLEL cpp option.  This functionality can be
+    achieved more robustly with the shifted chksums.
+  o Created a new module, GOLD_coms, for non-domain based communications,
+    although these functions can still be accessed via GOLD_domains.
+  o Moved the chksum and is_NaN routines from GOLD_domains to GOLD_checksums.
+
+GOLD_riga_201006_merge_ogrp (7/28/2010):
+  o merges from GOLD_Riga_diagnostics_ogrp branch,
+    corresponding to riga_201006_ogrp tag
+    - GOLD.F90 - added SST^2 diagnostic
+    - GOLD_diagnostics.F90 - unit correction
+    - GOLD_restart.F90 - large file size specification changed
+    - GOLD_OCEAN_TOPAZ.F90 - use _ALLOCATED for ORNL
+    - GOLD_generic_tracer.F90 - major changes for restarts
+
+GOLD_BT_mass_src_ogrp (7/28/2010):
+  o Corrected a bug that gave inconsistent flux estimates across the tripolar
+    edge with USE_BT_CONT_TYPE.  Other cases are unchanged.
+  o Added the ability to use the mass source in the barotropic solver, specified
+    by setting BT_MASS_SOURCE_LIMIT to be positive (the default is 0).  This
+    change entailed a significant rewrite of bt_free_surface_cor, which has now
+    been renamed bt_mass_source, including 3 new arguments.  Also, two new
+    arguments (the themodynamic time step and the time since surface mass fluxes
+    were applied) were needed for step_GOLD_dyn_split (in GOLD.F90). .
+
+bob_went_away_0910_ogrp (9/2/2010):
+  o minor tidy-up of chksums (GOLD_checksums.F90)
+  o using newer chksum in GOLD_barotropic.F90
+  o Use the right module name when logging from GOLD_wave_speed.
+  o When reading the coordinate labels from a mosaic, have the root PE read the
+    (full-size 1-D) arrays and broadcast them, to avoid potential I/O thrashing.
+  o Added a new module, GOLD_obsolete_params, and a common subroutine,
+    find_obsolete_params, to check for obsolete parameters. Also removed some
+    checks for obsolete parameters from other files.
+  o Added timing calls around all (untimed) message passing calls used in the
+    main loop.
+  o Separated the timing calls for pass_var/pass_vector calls from global
+    reduction calls (like sum_across_PEs).
+  o Obsoleted the run-time parameter USE_LOCAL_PREF_CORRECT by changing the
+    code with USE_LOCAL_PREF to use the ..._CORRECT version.  Answers change
+    with CM2G and CM2.2, but not CM2G63L.
+  o Added rigidity_ice fields to the forcing type, containing the vertically
+    integrated viscosity of the ice overlying the ocean.  These are allocated
+    and set in the ice shelf code.  New run-time parameters for the ice shelf
+    code are KV_ICE (the viscosity of ice shelves) and DENSITY_ICE.
+  o Added a new option, DYNAMIC_SURFACE_PRESSURE, to apply a dynamic pressure
+    that acts to resist vertical accelerations of the ocean/ice interface, with
+    the strength of this force determined by the rigidity of the ice and (more
+    often) numerical stability.  Related new parameters, which have reasonable
+    default values, are DEPTH_MIN_DYN_PSURF, CONST_DYN_PSURF, and
+    ICE_LENGTH_DYN_PSURF.  This new option is quite effective at damping
+    external gravity waves under an ice shelf in a new test case.
+    #define DYNAMIC_SURFACE_PRESSURE requires #define SPLIT (for now).
+  o Added "verbosity" feature. Default level=2 which reports FATAL, WARNING
+    and NOTE.
+  o Added documentation to the log_param calls in GOLD.F90.
+  o Removed unused parameters in GOLD_pressure.F90.
+  o Renamed the parameter for the depth over which the wind stress is applied
+    with DIRECT_STRESS as HMIX_STRESS, although HMIX still sets the default.
+  o Renamed the parameter for the minimum bulk mixed layer depth HMIX_MIN,
+    although HMIX still sets the default value.
+  o Added documentation to the log_param calls in GOLD_tidal_forcing.F90 and
+    some of the calls in GOLD_kappa_shear.F90 and GOLD_set_diffusivity.F90.
+  o Made RIGA_ITIDE_BUGS obsolete, removing the code and fatally trapping it
+    in GOLD_obsolete.F90.
+  o Made ML_RADIATION_CODING obsolete, removing the non-standard version code
+    and fatally trapping attempts to use it in GOLD_obsolete.F90. As the version
+    we kept was not the default, this changed answers in the CM2.2 test case
+    and might in some runs, but not in any of our active models.
+  o Added documentation to the log_param calls in GOLD_restart.F90,
+    GOLD_diag_to_Z.F90, and GOLD_tracer_flow_control.F90.
+  o Added documentation to the log_param calls in GOLD_CoriolisAdv.F90 and
+    GOLD_open_boundary.F90, and added comments to the latter.
+  o Changed all of the enhanced log_param calls with units to explicitly
+    use the "units=" argument specification.
+  o Added documentaiton to the log_params calls in GOLD_diabatic_driver.F90,
+    GOLD_write_cputime.F90, GOLD_file_parser.F90, GOLD_domains.F90, and
+    GOLD_diag_mediator.F90.
+  o Added the total ocean mass, salt, and temperature as fields in the ocean
+    surface state, and report out the salt deficit.
+  o Added "default" as an optional argument to the log_param and doc_param
+    routines.  Also added default arguments to many of the log_param calls
+    which had already had the documentation added.
+  o Added documentation to the log_param calls in GOLD_EOS.F90.
+  o Added defaults to the log_param calls in GOLD.F90.
+  o Added documentation to the log_param calls in GOLD_barotropic.F90.
+  o Removed unused variables from GOLD_PressureForce.F90.
+  o Added documentation to the log_param calls in GOLD_PressureForce_Mongomery.F90
+    and GOLD_PressureForce_analytic_FV.F90.
+  o Slightly modified the algorithms in entrainment_diffusive and
+    set_viscous_BBL to avoid NaNs with 0 thickness layers or 0 bottom stress,
+    but the answers are unchanged in all test cases.
+  o Added documentation to the the remaining log_param calls in the src/core
+    directory.
+  o Corrected the estimate of the largest stable value of DTBT in set_dtbt in
+    non-Boussinesq mode, & added comments documenting the arguments to set_dtbt.
+  o Added code to write out an automatically generated documentation file if
+    DOCUMENT_FILE is defined.
+  o Added a desc argument to log_version to document a module.
+  o Added documentation to the log_param calls in GOLD_grid_initialization.F90.
+  o Added defaults to the log_param calls in GOLD_tidal_forcing.F90.
+  o Added the run-time parameter MINIMAL_DOCUMENTATION, so that only variables
+    that are not set to their defaults are automatically documented.
+  o Added g_Earth, Rho0 and H_to_Pa to the grid type, and used these throughout
+    GOLD to avoid reading G_EARTH and RHO_0 multiple times.
+  o Resurrected "benchmark"
+    - tested for 50 days (look cool!) but using 1 day test with 24 PEs for
+      regression
+  o Added documentation to the log_param calls in GOLD_initialization.F90.
+  o Added RLAY_RANGE to specify the range of target densities when COORD_CONFIG
+    is layer_ref, with a default that replicates the previous answers.
+  o Made MAXIMUM_DEPTH mandatory in a few places where a default value of 1e6
+    made no sense, but kept this default in others where it is a limit and
+    not a value that is directly used.
+  o Set default values of 0 for both F_0 and BETA when ROTATION = "betaplane".
+  o Added documentation to the log_param calls in GOLD_PointAccel.F90 and
+    GOLD_sum_output.F90.
+  o Added documentation to the log_param calls in GOLD_tracer.F90 and most of
+    the remaining files in parameterizations/lateral.
+
+esm2g_2010sep23_jpk_aja (9/22/10 retroactively)
+  o fix for pathscale: strings spanning multiple lines must have & at beginning
+    of continuation lines (GOLD_domains.F90)
+  o Added documentation to the log_param calls in GOLD_entrain_H2000.F90,
+    GOLD_entrain_diffusive.F90, and GOLD_opacity.F90, and revised the log_param
+    documentation in GOLD_diabatic_driver.F90 to highlight unwise defaults.
+  o patch for GOLD_file_parser.F90 to fix compatibility with pathscale compiler
+  o Added documentation to the log_param calls in GOLD_mixed_layer.F90 and
+    GOLD_kappa_shear.F90.
+  o Added documentation to the log_param calls in GOLD_sponge.F90 and
+    GOLD_vert_friction.F90.
+  o Added documentation to the log_param calls in GOLD_set_diffusivity.F90 and
+    GOLD_set_viscosity.F90.
+  o Added the TS_profile option for initializing layer temperatures and
+    salinities, and made the depress_surface initialization routine work,
+    including the parameter SURFACE_HEIGHT_IC_SCALE for unit conversions.
+  o Added code to read HTBL_SHELF in GOLD_set_viscosity.
+  o Corrected indexing bugs in the ice-shelf related code GOLD_ice_shelf.F90
+    and GOLD_set_viscosity.F90; also log the ice shelf diagnostics as coming
+    from 'ice_shelf_model'.
+  o Added documentation to the log_param calls in several tracer packages.
+  o Added documentation to the log_param calls in the ice_shelf code.
+
+esm2g_dissipation_ogrp (9/24/10):
+  o Added some comments to GOLD_set_diffusivity.
+  o Added Lee wave driven mixing (aka Nikurashin 2010)
+  o Added lower bounds on dissipation (either constant or proportional to N)
+
+esm2g_geothermal_ogrp (9/27/10):
+  o Added the new geothermal heating module.  This is enabled by defining
+    DO_GEOTHERMAL and setting GEOTHERMAL_SCALE > 0.
+  o Added the internal_heat components to the therm_var type and surface type
+    to account for the heat added by geothermal heating or other interior ocean
+    heat sources.
+  o Added FLUX_RI_MAX into the dissipation limits and as a run-time parameter.
+    This changes the definitions of the dissipation limit parameters by a factor
+    of 5 (for FLUX_RI_MAX = 0.2).
+
+esm2g_logging_ogrp (10/1/10):
+  o Added logging and documentation of all the run-time parameters used in
+    the various /user initialization modules.
+  o Changed the interfaces to the benchmark initialization routines to pass
+    in the coordinate reference pressure as an argument. 
+  o Added a clock timing only the calculations (i.e., no communications) in
+    the barotropic time stepping routine.
+  o Added documentation to the remaining log_param calls in various diagnostics
+    modules and GOLD_MEKE.F90.
+  o Fixed two indexing bugs in setting the values in optics%opacity_band.  This
+    would change answers if PEN_SW_NBANDS > 3.
+  o Added a new parameter DISSIPATION_N0 which is added to DISSIPATION_N1*N in
+    setting one of the floors on the diffusive dissipation rates.
+  o Changed the names of the runtime parameters T_SOUTH, T_NORTH, S_SOUTH and
+    S_NORTH to SST_SOUTH, SST_NORTH, SSS_SOUTH and SSS_NORTH for greater clarity.
+  o Added documentation to the log_param calls in config_source/solo_driver.
+  o Added interfaces to the subroutines that set and query the tick length to
+    GOLD_time_manager.
+  o Added the timeunit as an optional argument and better logging capabilities
+    to log_param for time_type variables.
+  o Added timeunit arguments to the log_param calls for various time_type variables.
+  o Added or documented log_param calls for the routines in coupled_driver.
+  o Made the initial conditions files for DOME_tracer and tracer_example
+    settable at run time.
+  o Finished documenting the log_param calls for the tracer packages.
+
+esm2g_loggingfix_ogrp (10/4/10):
+  o Added the defaults to the log_param calls in GOLD_tracer_flow_control.
+  o Corrected omissions in the !$omp directives.
+  o Corrected type: DISSIPATION_MIN_N0 was set equal to DISSIPATION_MIN_N1
+
+esm2g_bt_wide_halo_ogrp (10/7/10):
+  o Removed an unneeded halo update from GOLD_barotropic.
+  o Added separate timings for the pre-stepping, stepping, and post-stepping
+    halo updates in GOLD_barotropic.
+  o Added diagnostics to calculate work done by mixing.
+  o Two bug fixes for calculation of bottom stratification used in 
+    dissipation limiting
+  o Added the capability to avoid some halo updates in the barotropic time
+    stepping by marching inward in with halos that are as wide as possible.
+    Answers do not change, so this capability is on by default, but can be
+    disabled with '#undef BT_USE_WIDE_HALOS".
+  o Eliminated the now-unneeded halo updates for pbce.
+
+esm2g_n2omega2_ogrp (10/8/10):
+  o Added option to not limit N2 by Omega2 in Henyey and itide code
+
+esm2g_saltrestore_ogrp (10/12/10):
+  o Added option to use salt restoring instead of virtual salt flux
+
+esm2g_passivity_ogrp (10/19/10):
+  o Added "passivity" parameters to specify KhTr proportional to KhTh
+     multiplied by Rd/dx.
+
+esm2g_revamp_set_diff_ogrp (11/4/10):
+  o Added a diagnostic of the total number of columns subject to sponges, which
+    is logged at startup.
+  o Added a diagnostic of the work due to the diffusive fluxes across interfaces
+    that are actually realized.
+  o Dramatically restructured GOLD_set_diffusivity, but without changing any
+    answers from the previous code by default.  To use the new (and wholly
+    untested) code, '#undef RIGA_SET_DIFFUSIVITY'.  The other new run-time
+    parameters are BBL_MIXING_AS_MAX and INT_TIDE_DECAY_SCALE (1 / I_ZETA).  
+  o Revised the code for the new options in the set_diffusivity code.  Answers
+    change with the new options, but not the previous ones.
+  o Added needed do loops to the new code limiting Kd, and added KD_MAX as a
+    new limit on the diffusivity increments.  Answers change with the new
+    options, but not the previous ones.  The new set_diffusivity code has
+    now been fully tested, and appears to work as intended.
+    
+esm2g_revamp_set_diff2_ogrp (11/8/10):
+  o Corrected bugs to now add the internal tide and ML_rad diffusivities to the
+    interfaces, as well as the layers, with '#undef RIGA_SET_DIFFUSIVITY'.
+
+esm2g_net_zero_fw_ogrp (12/21/10):
+  o Moved the halo update calls for visc%Ray_u & visc%Ray_v out of 
+    set_viscous_BBL and into the main time-stepping loop with the halo updates
+    for the other variables set in set_viscous_BBL. Answers are unchanged.
+  o Changed the calculation of state%ocean_salt to be consistent with the
+    declared units of kgSalt m-2.  state%ocean_salt was not yet in use.
+  o Set a number of pointers to null at initialization, and changed ALLOCABLE
+    arrays to be ordinary automatic arrays.
+  o Added logical tests to allow Flather and simple inflow open boundary
+    conditions to be applied in different parts of the domain.
+  o Reordering of some of the subroutine calls in step_GOLD to allow more work
+    to be done during non-blocking halo updates (to follow soon).
+  o Added the interfaces to allow non-blocking halo updates, but disabled with
+    a pre-processor flag for use with the Riga shared code.
+  o Added the run-time parameter NONBLOCKING_UPDATES to allow for nonblocking
+    halo updates, along with a number of calls to make this happen.  Answers
+    are bitwise identical in both cases, but post-Riga shared code is required
+    for the non-blocking updates.
+  o bugfix: DEBUG=1 failed to compile due to out-of-bounds reference to
+    io_layout in GOLD_domains.F90
+  o changed NXHALO to 4 from 3 in benchmark
+    - note: there is a probable bug associated with changing NXHALO in this
+      experiment
+  o Initialized several arrays in btstep over wider regions to correct the bug
+    mentioned above when BT_USE_WIDE_HALOS is true. Also apply G%hmask when
+    calculating eta_src to avoid adding mass to non-ocean points.  With these
+    changes, the answers with NXHALO set to 4 in benchmark agree with the answers
+    with NXHALO 3, but the other test cases are bitwise identical.
+  o Corrected uninitialized variable bugs in GOLD_continuity_PPM and 
+    GOLD_set_diffusivity that interfere with runs on Gaea, but do not change
+    answers on our Altixes.
+  o Added option ADJUST_NET_FRESH_WATER_TO_ZERO
+    which sets the globally integrated net freshwater flux into the
+    ocean-ice system to zero. The ice melt freshwater flux
+    is diagnosed from the salt_flux assuming the ice salt
+    concentration is equal to ICE_SALT_CONCENTRATION which is defaulted
+    to 5 PSU.  This option needs to be enabled in all GOLD-SIS runs.
+
+esm2g_post_altix_ogrp (01/05/11):
+  o Adding two bug-fixes to Kappa-shear code BUT left them disabled by
+    default!!!!
+    - these change answers on ic16 in GOLD_SIS abd CM* models and we need a
+    non-answer changing tag for ESM2G first.
+  o Updated GOLD_input for the CM2G63L test case to use the corrected initial
+    conditions file GOLD_IC.2010.11.15.nc, along with an updated timestats.
+  o Updated the reference solution for CM2G63L to agree with the revised ESM2G
+    and checked in a new timestats file for CM2G63L.
+  o Initialized logicals salt_restore_as_sflux, mask_srestore_under_ice and
+    mask_srestore_marginal_seas in coupled/GOLD_surface_frocing.F90
+    - were causing run-time problems with pathscale compiler.
+
+gaea_first_light_ogrp (01/11/11):
+  o Added the _8 kind specifier to the integer constant 4294967295_8.
+  o Added reference timestats.intel and timestats.pathscale for runs with the
+    intel and pathscale compilers on gaea for 6 ocean-solo test cases.
+  o Removed examples/*/timestats now that we have create timestats.intel and
+    timestats.pathscale alternatives
+  o Added timestats.{intel,pathscale} for single_column
+  o Added timestats.{intel,pathscale} for GOLD_SIS
+  o Added timestats.intel for CM2.2, CM2G and CM2G63L
+    - these expts now use 30+60 PE's for the atmos/ocean, respectively
+      with no threading in the atmosphere
+    - notably absent are timestats.pathscale for these expts since 
+      the atmosphere dies with "bus errors"
+  o Corrected examples/CM2.2/timestats.intel to use the locally modified 
+    examples/CM2.2/user_revise_forcing.F90.
+  o Removed the out-of-date CM2.2 test case.
+
+kappa_shear_no_riga_bugs_ogrp (01/11/11):
+  o Turned off Riga_KS_bugs1 and Riga_KS_bugs2, by default.
+    - this corrects the code but changes answers for
+      single_column, benchmark, GOLD_SIS, CM2G and CM2G63L
+
+esm2g_riga_201012_ogrp (01/11/11):
+  o Fixed loop bounds in GOLD_tracer.F90
+    - non-answer changing but did cause SEGV in debug mode
+  o Globally replaced "!$omp " with GOMP() to hide OMP directives
+    from the intel compiler. We can later recover the directives
+    using a cpp macro...
+  o Updated shared/atmos code to riga_201012
+    - added timestats.pathscale for CM2G and CM2G63L
+    - new ice checksum routines in coupled_src (interface change)
+
+bt_very_wide_halos_ogrp (01/30/11):
+  o Typo (missing \n) in GOLD_set_diffusivity.F90 caused PGI to barf
+  o Revised user/benchmark_initialization.F90 to avoid compile-time warnings
+    about exceeding array bounds with pathscale and static memory.
+  o Changed the interface to GOLD_domains_init to allow the minimum halo size
+    and memory symmetry to be actively set, removing and reversing the sense
+    of the previous argument "nonsymmetric_auxiliary".
+  o Added macros to enforce static or dynamic symmetric memory alloction of
+    arrays, regardless of whether SYMMETRIC_MEMORY is defined.
+  o Revised btstep to always use symmetric memory, regardless of whether
+    SYMMETRIC_MEMORY is defined.
+  o Made a number of changes to move toward using extra-wide halos in btstep,
+    but without changing the halo size yet.  Included in these are changes that
+    allow the stensil size to be set to 1 and to maximize the number of
+    iterations between halo updates.
+  o Made the argument min_halo to GOLD_domain_init into an intent inout
+    2-d integer array, with the input the minimum halo sizes and the output
+    values the halo sizes that are actually used.  Also added more explicit
+    logging of the modes and values for the halo sizes.
+  o Added the ability to use extra-wide halos in the barotropic solver.  All
+    answers are bitwise identical.  This ability is used by adding 
+    #define BT_HALO to GOLD_memory.h (in static memory mode) or by setting
+    the run-time variable BTHALO (in dynamic memory mode).
+  o Updated the sample GOLD_memory.h files for 5 test cases (CM2G, CM2G63L,
+    GOLD_SIS, double_gyre, and global) to use extra-wide barotropic halos.
+  o Made nonblocking_updates a logical element in both the GOLD_domain_type
+    and the ocean_grid_type, the latter being a copy of the former.
+  o Removed nonblocking_updates from the top-level GOLD_control_struct, and now
+    use the one from the ocean_grid_type in GOLD.F90.
+  o Made the (static) barotropic estimates of PV (f/D) and face area (D) a part
+    of the barotropic control structure to avoid a set of halo updates each
+    time the barotropic solver is called.
+
+esm2g_jan_release_ogrp (02/08/11):
+  o Added code to limit the temperature and salinity changes that are allowed
+    to the water that is left behind when water is detrained from the deepest
+    buffer layer by extrapolation.  This is controlled by new run-time
+    parameters ALLOWED_DETRAIN_TEMP_CHG and ALLOWED_DETRAIN_SALT_CHG, which by
+    default are set sufficiently generously (4 C and 1.5 PSU) to not change
+    the answers in the test cases.
+  o Reduced the defaults for ALLOWED_DETRAIN_TEMP_CHG and ALLOWED_DETRAIN_SALT_CHG
+    to 0.5 C and 0.1 PSU, which changes answers in 7 of 8 test cases that use
+    the relevant code.
+
+esm2g_jan_release2_ogrp (02/15/11):
+  o Updated the barotropic and continuity_PPM run-time options for CM2G63L to
+    the more robust (and perhaps efficient) settings as used in the benchmark
+    test case, and removed some archaic options from the GOLD_input file.
+  o Added to CM2G63L/GOLD_input
+     #define KHTR_PASSIVITY_COEFF 3.0
+     #define N2_FLOOR_IOMEGA2 0.
+     #undef  RIGA_SET_DIFFUSIVITY
+     #undef  BBL_MIXING_AS_MAX
+   and changed
+     #undef  USE_RIVER_HEAT_CONTENT
+     #undef  USE_CALVING_HEAT_CONTENT
+
+esm2g_feb_2011_ogrp (02/17/11) :
+  o Corrected the code setting the units for CFC12.
+  o Corrected the formatting in "Truncations" lines to stdout.
+  o Turned off chksums of the halo regions for non-haloed thermodynamic forcing
+    fields in GOLD_diabatic_driver.
+  o Corrected a curiousity in GOLD_entrain_diffusive that could allow compilers
+    to generate code that does not reproduce across PE layout by reordering
+    identical fortran code with identical values in two different places. To
+    recover the old (non-reproducing) answers, #define RIGA_ENTRAINMENT_FOIBLES.
+    Answers change in ESM2G63L, but not in the other short test cases.
+  o Changed the code associated with ADJUST_NET_FRESH_WATER_TO_ZERO to use
+    bitwise exact (reproducing) global sums.
+  o Updated the GOLD_SIS test case to use 63 layers and settings and initial
+    contitions similar to CM2G63L.
+    Note:
+     1. GOLD_SIS/INPUT created by
+       ln -s /lustre/fs/scratch/Alistair.Adcroft/datasets/GOLD_SIS/omsk_2007_10/INPUT/* .
+       ln -sf /lustre/fs/scratch/Alistair.Adcroft/datasets/CM2G63L/riga/mosaic.unpacked/* .
+       ln -s /lustre/fs/scratch/Alistair.Adcroft/datasets/CM2G63L/riga/INPUT/geothermal_heating_cm2g.nc .
+       ln -s /lustre/fs/scratch/Alistair.Adcroft/datasets/CM2G63L/riga/INPUT/GOLD_IC.2010.11.15.nc .
+     2. The absence of -sf for mosaic data led to an intermediate version of
+        timestats that led to a force move of this tag.
+
+feb_2011_prebugfix_ogrp (02/28/11) :
+  o Changed the PE-count in 4 of the test cases, and checked in new reference
+    timestats files.  These use: GOLD_SIS (60 PEs, 6x10); global (64 PEs, 8x8);
+    nonBous_global (64 PEs, 8x8); benchmark (72 PEs, 12x6)
+  o Added NXPROC_IO and NYPROC_IO to all GOLD_input files, and io_layout to the
+    various ice_model_nml to eliminate creation of overly large numbers of
+    files and for run-time efficiency.
+  o Changed the defaults for FLUX_BT_COUPLING and RECLAIM_FRAZIL to true, and
+    for USE_H2000_SHEAR_MIXING to false (the appropriate values).  Also added
+    these explicitly to the GOLD_input files in the examples that used the old
+    defaults.
+  o Merged initialize_topography_spoon and initialize_topography_bowl into a
+    single subroutine initialize_topography_named that can generate either shape
+    or a new "halfpipe" shape.  Answers are identical.
+  o Added new code to allow ice shelf masses to be changed, including a new
+    user_ice_shelf_CS type, a new subroutine USER_update_shelf_mass, new runtime
+    parameters DYNAMIC_SHELF_MASS, FLAT_SHELF_WIDTH, SHELF_SLOPE_SCALE,
+    SHELF_EDGE_POS_0, and SHELF_SPEED (the latter 4 in user_shelf_init.F90).
+
+esm2g_feb_2011_bugfix_ogrp (02/28/11) :
+  o Corrected a bug in vhbt_to_vbt in which return statements in place of exit
+    statements mean that potentially large diagnosed velocities are not limited
+    by previous estimates.  This is most problematic with wetting and drying,
+    but changes slightly answers in the CM2G63L, GOLD_SIS, benchmark and
+    circle_obcs test cases.  uhbt_to_ubt was correctly coded, and the old bugs
+    can be recovered with #define RIGA_BTCONT_BUGS.
+
+riga_prenonblocking_ogrp (05/10/11) :
+  o Simplified the bug-correction that was just checked in, eliminating the
+    run-time flag RIGA_BTCONT_BUGS.  The answers from feb_2011_prebugfix_ogrp
+    can no longer be recovered.
+  o Added a parameterization of double diffusion, including setting different
+    diffusivities for temperature and salinity, applying the minimum of these
+    to density and the excess to the relevant tracer.  This is enabled with the
+    run-time flag DOUBLE_DIFFUSION, which is undefined by default.  By default
+    there are no changes to answers.
+  o Corrected a bug in the initial guesses of inversions in continuity_PPM for
+    the v-velocities that give a specified transport. This only applies to
+    calculations of the BT_cont_type on the predictor step, but does change
+    answers in the benchmark, GOLD_SIS, and CM2G63L test cases.  The old answers
+    can be recovered with '#define CONT_PPM_RIGA_BUGS' in GOLD_input.
+  o Added two new run-time options for continuity_PPM, CONT_PPM_VOLUME_BASED_CFL
+    to use the ratios of cell areas to open face areas in calculating the CFL
+    in the distances to integrate, and CONT_PPM_AGGRESS_ADJUST to use the
+    velocities in adjacent cells to estimate the maximal barotropic adjustments
+    that are guaranteed not to have crossing characteristics. Both are off by
+    default.
+  o Added log_param calls for DOCUMENT_FILE and MINIMAL_DOCUMENTATION.
+  o Added code to write out a list of all available (registered) diagnostics
+    along with information about units, long_names, and which have been used. To
+    accomplish this I made diag_mediator_init, diag_mediator_init and
+    register_diag_field into GOLD_diag_mediator.F90 actual subroutines, rather
+    than simple wrappers for subroutines in diag_manager_mod, including adding
+    a param_file_type to the interface for diag_mediator_init.  There is also
+    a new subroutine diag_mediator_close_registration to close this file. The
+    run-time parameter AVAILABLE_DIAGS_FILE specifies the file.
+  o Added code in GOLD_document.F90 to allow the parameter documentation file
+    to be opened and closed within a run (e.g., by different components).
+  o Made the maximum and minimum velocities for reporting in write_u_accel and
+    write_v_accel into arguments, and write out the CFL numbers for the large
+    velocities into the U_TRUNC_FILE and V_TRUNC_FILE.  These documented
+    velocities do not need to be the same as the truncation velocities.
+  o Added new run-time options CFL_BASED_TRUNCATIONS, CFL_TRUNCATE, and
+    CFL_REPORT to use CFL numbers instead of dimensional velocities to determine
+    when to truncate velocity components or to report accelerations.
+  o Modified the code in write_energy to record the instantaneous global maximum
+    CFL number in output to stdout and the timestats files.
+  o Corrected 4 bugs in thickness_diffuse_full and the way it was calling
+    calculate_density_derivs that caused the wrong range of indices to be used
+    with SYMMETRIC_MEMORY and not reproduce the non-symmetric solutions.  The
+    answers now reproduce.  Also, changed the default GOLD_memory.h for the
+    benchmark test case to use SYMMETRIC_MEMORY, to ensure that this is tested
+    with a different set of options than the global test case.
+  o In GOLD_barotropic.F90, removed an unneeded halo update, added separate
+    cpu_clocks for the calculations before, during and after the barotropic
+    stepping, and put in the option to use non-blocking halo updates within the
+    barotropic stepping.  The code to do non-blocking updates in the
+    post-stepping calculations has been added but is commented out and has not
+    been compiled or tested.  Answers are unchanged.
+  o In GOLD_barotropic, corrected and uncommneted the code to do non-blocking
+    halo updates in the post-stepping calculations.  Answers are unchanged.
+  o Added optional complete arguments to the various pass_..._start routines, in
+    anticipation of a new capability that will be provided by mpp.  For now this
+    argument does nothing.
+  o Rearranged the pre-stepping part of btstep to accommodate non-blocking halo
+    updates and added the non-blocking updates.  Answers are bitwise identical.
+  o Restored FORBID_NONBLOCKING_UPDATES in GOLD_domains.F90 so the code will
+    once again compile with the Riga shared code.
+  o Added the ability to linearly interpolate the surface pressure over a
+    coupling timestep (for both dynamic and barotropic time steps).  This
+    is enabled with the run-time parameter INTERPOLATE_P_SURF, and required the
+    addition of a new optional argument, eta_PF_start, (which may be a NULL
+    pointer) to btstep.  By default, this is off so answers do not change.
+  o Made coding changes to GOLD_file_parser.F90 to avoid certain errors
+    with the pgi compiler.
+
+GOLD_riga_201104_ogrp (05/13/11):
+  o ### THIS CODE NEEDS "riga_201104" SHARED CODE OR LATER TO COMPILE (see below)
+  o Undefined FORBID_NONBLOCKING_UPDATES in GOLD_domains.F90.  The code will now
+    require the riga_201104 (or later) shared code to compile successfully.
+  o Added the ability to use the dynamic pressure with sea-ice instead of an
+    ice shelf.  To do this, the new run-time parameter USE_RIGID_SEA_ICE needs
+    to be defined, as does DYNAMIC_SURFACE_PRESSURE.  Two run-time parameters,
+    SEA_ICE_VISCOSITY (default 1.0e9 m2 s-1) and SEA_ICE_RIGID_MASS (default
+    1000 kg m-2) control the magnitude of this term and when it acts.  By
+    default this is off.  (For now the dynamic pressure can not be used with
+    both sea-ice and an ice shelf.)
+  o Corrected the calculation of eta_PF in non-Boussinesq models with sea-ice
+    or atmospheric pressures.  Solutions excite smaller gravity waves.  The
+    reference solutions are unaffected.
+  o Added the ability to read the initial conditions for thickness (and not just
+    interface heights) from a file (with #define THICKNESS_CONFIG "thickness_file")
+    Also added parameters TEMP_IC_VAR and SALT_IC_VAR to specify the variables
+    that are to be read when initializing temperature and salinity from a file.
+
+GOLD_presienna_ogrp (7/28/11):
+  o added _8 to value of integer(kind=8), parameter in GOLD_restart.F90
+    (requested by jgj)
+  o Corrected a bug in GOLD_barotropic.F90 that led to incorrect answers with
+    both BT_USE_WIDE_HALOS and NONBLOCKING_UPDATES defined.
+  o Corrected a bug in GOLD_barotropic.F90 with swapped logic for blocking
+    and nonblocking sends when RESCALE_BT_FACE_AREAS is defined.
+  o Added enable_averaging and disable_averaging calls to GOLD_ice_shelf.F90
+    to allow ice-shelf diagnostics to be written out.
+  o Added clocks around module GOLD_surface_forcing
+  o Re-enabled halo-shifted checksums in GOLD_barotropic
+  o Changed the size of the t_grid element of vardesc from 1 to 8 characters and
+    enabled periodic time axes with the number of elements given by the number
+    in entries like "p 12".  This capability will be used in certain restart
+    files, like those planned for corrective forcing.  All existing code still
+    works.
+  o Added the ability to specify 1-d arrays and pointers to scalars in the
+    restart files, including new subroutines under current overloaded interfaces
+    and allow variables to have axes that are periodic in time. Also added
+    impoved comments and additional messages and simplified some of the coding.
+  o Grouped the calls to initialize the topography into a new, publicly visible
+    subroutine, GOLD_initialize_topography, so that this code can be shared with
+    the ice-sheet model.
+  o Added overloaded safe_alloc_ptr subroutine for 1-d arrays.
+  o Added a subroutine, restart_init_end, that will deallocate a GOLD_restart_CS
+    if it doesn't have any variables.
+  o Made all arguments to Get_GOLD_Input optional (with the same order) so that
+    only the desired variables are set.
+  o Added a subroutine forcing_save_restart and modified GOLD_surface_forcing
+    to allow the forcing to save a restart file, and added commented out code
+    that will later be used for the controlled forcing capabilities.
+  o Added calls to forcing_save_restart to the solo and coupled ocean drivers.
+  o Corrected an indexing bug in tracer_epipycnal_ML_diff when the density in
+    the mixed layer exactly matches the density in a neighboring buffer or
+    interior layer (which happens maybe 1 time in 10^16 grid-point time-steps).
+    The old bugs can be recovered with #define RIGA_TRACER_DIFFUSE_BUGS.  Also
+    added comments describing many variables in the same routine.
+  o Added code to allocate the ocean_mass, ocean_heat, and ocean_salt elements
+    of the ocean surface state.
+  o Added ice-sheet dynamics inside of GOLD_ice_shelf.F90.
+  o Added new three arguments to USER_initialize_shelf_mass and
+    USER_update_shelf_mass.
+  o Initial check-in of the solo ice-shelf/sheet driver and the contents of the
+    directory config_src/ice_solo_driver.
+  o Added documenting comments and log_param calls in GOLD_ice_shelf.
+
+GOLD_presienna_201110_ogrp (10/12/11):
+  o Added a label documenting the maximum CFL column and units to the timestats
+    files.  New reference solutions were added.
+  o Added a new run-time parameter, BOUND_CORIOLIS_BIHARM, to override the
+    setting of BOUND_CORIOLIS in GOLD_hor_visc.F90.
+  o Added code allowing BOUND_CORIOLIS to be used even with CORIOLIS_EN_DIS on
+    with Coriolis schemes apart from SADOURNY75_ENERGY. Answers do not change.
+  o Fixed a bug with CORIOLIS_EN_DIS and changed how uhc and vhc are set at
+    open boundaries, where non-zero transports are specified despite 0 open
+    face lengths.  This changes the answers with the DOME test case.
+  o Made the run-time option SADOURNY formally obsolete.
+  o Added a parameter BOUND_CORIOLIS_VEL to enable the velocity scale at which
+    the |f|- and shear-squared-dependent biharmonic viscosity is as large as the
+    Coriolis acceleration, although the default is still MAXVEL as before.
+  o Added the Sadourny (1975) enstrophy conserving scheme and the Arakawa and
+    Lamb (1981) energy and enstrophy conserving schemes as options for the
+    Coriolis parameters.
+  o Added a new Coriolis scheme option, ARAKAWA_LAMB_BLEND, which uses Arakawa
+    and Lamb where thicknesses are well behaved and Sadourny's energy conserving
+    scheme where they are not.  Two new parameters (with reasonable defaults),
+    CORIOLIS_BLEND_WT_LIN and CORIOLIS_BLEND_F_EFF_MAX, control what is meant
+    by "well-behaved".
+  o Corrected the initial comments in GOLD.F90, GOLD_driver.F90, and
+    ice_shelf_driver.F90.
+  o Added the ability to do order invariant sums across PEs via the subroutine
+    reproducing_sum in GOLD_coms.F90.
+  o Added the ability to calculate the global sums in GOLD_sum_output.F90 via
+    the new order invariant sums, if enabled with #define USE_REPRODUCING_SUM.
+  o Changed the default to use the new order invariant sums with salinity
+    restoring in coupled_driver/GOLD_surface_forcing.F90.  This does change
+    answers, but SLOW_BITWISE_GLOBAL_FORCING_SUMS recovers the previous answers.
+    New reference solutions were checked in for the GOLD_SIS test case.
+  o Restructured the code that accumulates the fluxes to optionally accomodate
+    the use of the order invariant sums.  No answers change, and even the output
+    to the timestats files happens not to change for the 9 test cases, although
+    it might have.
+  o Added the option to apply a Laplacian smoother to the sea surface height
+    (adjusted for surface pressure) that is returned to the calling interface
+    and used by the sea-ice.  The strength of the smoother is controlled by the
+    new run-time parameter SSH_SMOOTHING_PASSES.
+  o Changed the code in GOLD_lateral_mixing_coeffs to raise the input value of
+    KH_RES_SCALE_COEF to the power of KH_RES_FN_POWER so that the same value
+    makes sense over a broad range of powers.  Since the default value is 1 and
+    no current experiments use any other value, this does not change answers.
+  o Added an optional integer verbosity value (0-9) to GOLD_mesg, allowing the
+    global VERBOSITY parameter to control output, and added an appropriate value
+    of this argument to most of the existing GOLD_mesg calls.
+  o Made a slight revision to the code related to ARAKAWA_LAMB_BLEND to avoid
+    getting NaNs in calculating the ratios of the max and min inverse
+    thicknesses over land.  These NaNs do not spread.
+  o Added code to make sure that the entire depth list is filled in, avoiding
+    potential NaNs in the calculated APE.
+  o Added the new file GOLD_vert_remap.F90, including options to restructure the
+    near-surface layers when they have too much variation to permit a sensible
+    barotropic transport.  Also added a call to vert_remap inside of diabatic.
+    This is enabled with #define REGULARIZE_SURFACE_LAYERS with the key
+    run-time parameter REG_SFC_DEFICIT_TOLERANCE.
+  o Added two new optional arguments to btstep, sum_u_dhdt and sum_v_dhdt for
+    the barotropic accelerations arising from the continuity equation. Also
+    corrected some arguments to post_data, added 3 new high-frequency
+    barotropic diagnotics (eta_pred_hifreq, uhbt_hifreq, vhbt_hifreq) and the
+    new parameter MAXCFL_BT_CONT to constrain the accelerations from the new
+    transport terms.  By default there are no answer changes.
+  o Added the option BT_INCLUDE_UDHDT to call btstep with the two new arguments
+    and the other code modifications to make this option work.
+  o Changed the default of USE_REPRODUCING_SUM to true, so that all reference
+    solutions will be reproduced exactly across PE count, and checked in a new
+    set of reference solutions.
+  o Correct GOLD_sum_output to avoid use of an undefined variable when T & S are
+    not used.  This trips up a debugger does but nothing else.
+  o Modified GOLD_continuity_PPM to correctly set up the BT_cont type where
+    simple open boundary conditions are used (like in the DOME test case).
+  o Changed the global, nonBous_global, and double_gyre test cases to use
+    FLUX_BT_COUPLING, and checked in new reference solutions.
+  o Revised initialize_sponges to initialize_sponges_file and made the file-
+    names and variable names run-time configurable.  The old hard-coded version
+    inside of this subroutine was eliminated.
+  o Added an optional argument, all_print, to GOLD_mesg and GOLD_error which
+    if true causes all processors (not just the root PE) to write output.
+  o Added error handling to read_axis_data that causes the model to stop when
+    a named axis is not found.
+  o Corrected the counter for the number of fields registered with the sponges
+    to avoid an incorrect error message when no sponge points are on the root PE.
+  o Added code to optionally use the run-time parameter COORD_VAR to set the
+    variable in COORD_FILE that is used to set the model coordinate.
+  o Added multiple new optional run-time arguments to wind_forcing_from_file,
+    including WINDSTRESS_X_VAR, WINDSTRESS_Y_VAR, WINDSTRESS_STAGGER, and
+    WINDSTRESS_SCALE.  These are all necessary to run the MESO experiments using
+    the original forcing files.
+  o Made revisions to vert_remap to enable the buffer layers to detrain into the
+    interior when densities nearly match and the layer structure is sufficiently
+    problematic.  This can change answers when REGULARIZE_SURFACE_LAYERS is
+    defined, and is enabled by defining the new runtime parameter
+    REGULARIZE_SURFACE_DETRAIN.
+
+GOLD_oct26_2010_ogrp:
+  o Added association checks around pass_vector for CS%visc%kv_bbl_u to
+    avoid SEGV when BOTTOMDRAGLAW is undefined.
+  o Added new example torus_advection_test (uniform-diagonal translation of
+    tracer with test profiles in each layer).
+  o Added timestats.pgi for all but the coupled experiments.
+  o Added the branch null_ice_shelf_ogrp for a version of the code that does
+    not include the ice shelf code, but does have all the external interfaces
+    to compile properly.  This branch only affects directory src/ice_shelf.
+
+GOLD_dec16_2011_ogrp:
+  o Removed unneeded module dependencies from GOLD_write_cputime.F90.
+  o Corrected the reproducing_sum to do a carry before the final conversion back
+    to real numbers.  The sums in timestats now reproduce across PE count in all
+    cases (apart from mean sea-level, which depends on a sorted depth list).  In
+    particular benchmark now gives identical values for 72 or 70 PEs.  New
+    reference solutions for benchmark, and some coupled runs were checked in.
+  o Removed logical tests that prevented halo updates on bt_rem_[uv] when the
+    bottom drag is applied in the barotropic solver.  This should correct a bug
+    leading to non-reproducibility that was not captured in our test cases.
+  o Again corrected the reproducing_sums to ensure that all of the integers are
+    of the same sign before conversion back to reals.  This could change answers
+    in cases with sums of arrays with both signs (but not in the test cases).
+  o Corrected a spelling error (determied) in a message from GOLD_driver.
+  o Added optional arguments to vertvisc to use for returning the bottom
+    stresses that are calculated as a part of the vertical friction.  Also
+    added diagnostics of the bottom frictional stresses (taux_bot and tauy_bot).
+  o Made slight modifications (> to >=) to allow the truncating layers to be
+    properly determined in GOLD_PointAccel.F90.
+  o Added optional arguments to btstep to explicitly apply the diagnosed bottom
+    drag, and the new run-time argument SPLIT_BOTTOM_STRESS to diagnose this
+    stress and pass it in as an argument.
+  o Added an option, GRADUAL_BT_ICS, to change the initial barotropic transport
+    at the start of each call to btstep gradually, instead of suddenly.
+  o Enabled the USE_BT_CONT_TYPE when FLUX_BT_COUPLING is not used.
+  o Added the run-time options BETTER_BOUND_AH and BETTER_BOUND_KH that apply
+    more careful bounding, including co-limitation, of the Laplacian and
+    biharmonic viscosities, with a limit determined by the run-time parameter
+    HORVISC_BOUND_COEF.  By default, answers do not change, and the new options
+    have been carefully tested.
+  o Fixes SEGV in GOLD_lateral_mcixing_coeffs.F90 when KHTH diagnostics turned
+    on without use_variable_mixing.
+  o Added interfaces to the "Extended Fixed Point type" (EFP_type) to allow the
+    storage and simple arithmetic for highly accurate order-invariant sums.
+  o Made the interface height diffusivities 3-d arrays (although the values are
+    all still vertically uniform).  Also added new 2-d diagnostics of the
+    vertical background thickness diffusivities, because the full diffisivities
+    are now 3-d.
+  o Corrected a potential segmentation fault (k should have been 1 in two
+    places) in the previous change to the interface height diffusion code.
+  o Added a halo update when p_surf_prev is read from a restart file to
+    eliminate non-reproducibility across restarts.
+
+GOLD_siena_pr2_ogrp:
+  o Created new restart/initial conditions for coupled components that NEED
+    netcdf formatted files. These were generated by running the model for one
+    day. The answers change for this reason alone. Affects CM2G & CM2G63L.
+
+GOLD_sienna_hires_fixes_ogrp (1/25/12):
+  o Added an option, SIMPLE_2ND_PPM_CONTINUITY, to use a simple 2nd order
+    centered estimate of the edge values.  By default this is not used.
+  o Added an option, enabled by DETANGLE_INTERFACES and at a rate set with
+    DETANGLE_TIMESCALE, to use adaptive interface height diffusion to control
+    extreme grid-scale variations in layer thicknesses.  Also added checksum
+    debugging calls to thickness_diffuse, enabled with #define DEBUG.
+  o Modified some of the logical tests around the open boundary condition code
+    in the barotropic solver for efficiency while avoiding segmentation faults.
+  o Eliminated apparently unnecessary multiplications by masks in the
+    barotropic open boundary condition code.
+  o Added the run-time flag FIRST_DIRECTION and grid%first_direction to the
+    ocean grid type, which can be used to determine whether updates are done
+    first in the x-direction (0 or even) or y-direction (1 or odd).  Also added
+    the small subroutine set_first_direction to enable this to be changed during
+    the course of a run (although this is not yet used).
+  o Deleted blank line at top of CM2G*/diag_table that caused failure to read
+    with siena.
+  o Added the option, controlled by the option BT_CONT_BT_THICK, to use the
+    marginal layer thicknesses from the continuity solver when estimating the
+    barotropic accelerations.  This entailed adding an optional argument to
+    alloc_BT_cont_type and new elements to the BT_cont_type, and two new
+    internal subroutines inside of GOLD_continuity_PPM.
+  o Applied masks to 2-d surface diagnostics (SSH, SST, etc.), and added
+    "speed" as a new diagnostic of surface speed on h-points.
+  o Split out GOLD_control_struct from GOLD.F90 in to GOLD_CS_type.F90 in
+    preparation for separating the unplit and split codes.
+  o Split out s/r step_GOLD_dyn_unsplit and step_GOLD_dyn_split_RK2 into
+    separate files GOLD_dynamics_split_RK2.F90 and GOLD_dynamics_unsplit.F90
+  o Added an optional real mask argument to post_data.
+  o Used the masking inside of post_data to simplify the output of masked 2-d
+    diagnostics in GOLD.F90.
+  o Moved the code making decisions on using and allocating the BT_cont_type
+    into GOLD_barotropic.
+  o Merged all selections related to the barotropic thickness into the single
+    parameter BT_THICK_SCHEME, and made ARITHMETIC_BT_THICK, HYBRID_BT_THICK,
+    and BT_CONT_BT_THICK obsolete, changing all of the GOLD_input files for the
+    examples so that the answers do not change.
+
+GOLD_siena_mar30_2012_ogrp (3/30/12):
+  o Changed the value of BT_THICK_SCHEME for the MESO_025_63L test case from
+    HARMONIC to HYBRID, for better solutions.
+  o Added timestats.pgi to CM2G, CM2G63L and MESO_025_63L experiments
+  o Moved the time-stepping-scheme specific restart registration and
+    initialization routines into the separate dynamics stepping modules.
+  o Added an argument to a call to btstep so that #define USE_BT_CONT_TYPE and 
+    #undef FLUX_BT_COUPLING work together as intended.  This does change
+    answers with #define USE_BT_CONT_TYPE and #undef FLUX_BT_COUPLING.
+  o Added the ability to do the barotropic steps using a forward-backward-like
+    scheme where the velocity is updated first, and the continuity follows. The
+    amount of damping is controlled with BEBT, with 0 giving forward-backward.
+    To enable this, use #define BT_PROJECT_VELOCITY.
+  o Added second order Runge-Kutta form of unsplit algorithm.
+  o Added all_print arguments to a number of warning messages so that they will
+    print from all PEs, and removed redundant is_root_pe tests from others.
+  o Removed unneeded module use statements from GOLD_CS_type.F90.
+  o Added the horizontal viscosity terms into the accelerations with the unsplit
+    2nd order Runge-Kutta code.  These terms had been accidentally omitted.
+  o Added a halo update for temperature and salinity when run with
+    #define ADIABATIC.
+  o Corrected two bugs with uninitialized variables that should have no effect,
+    but which can trip up some debugging compilers.
+  o Fix skipping of "write_energy" when ENERGYSAVEDAYS is equal to DT_FORCING.
+  o Enabled single-PE parsing of GOLD parameter files
+  o Added lock_exchange experiment
+    - configured to reflect figure 1 of Ilicak et al, 2011.
+  o Added external_gwave experiment.
+  o Added SSH_inst as a high-frequency (snapshot) diagnostic, as opposed to
+    SSH which is averaged over a baroclinic timestep.
+  o Added BT_USE_LAYER_FLUXES, which provides instantaneous layer fluxes along
+    with the velocities used to generate them to the barotropic solver, so that
+    it is now a formal linearization about a particular state of the unsplit
+    model.  This is formally unstable without DT_BT_FILTER > 0.
+  o Added the option, DT_BT_FILTER, to specify the strength (in s) of a temporal
+    filtering to apply to the fields returned by btstep and used by btstep
+    as the initial conditions for the barotropic solver, similarly to what is
+    routinely done in ROMS (see Shchepetkin & McWilliams, 2005).  By default
+    all answers are unchanged, although there will be small changes when this
+    filter is modified to always use pre-normalized weights.
+  o Made frhatu, frhatv, uhbtav, and vhbtav available as diagnostics.
+  o Cleaned up the open boundary initialization code and checked in reference
+    answers for the circle_obcs test case. Also added log_param calls for the
+    parameters READ_OBC_[UV,ETA,TS] and OBC_FILE.
+  o Changed the default of OLD_RESTRAT_PARAM from true to false.
+  o Corrected the documented defaults for RIGA_KAPPA_SHEAR_BUGS1 and ..._BUGS2.
+  o Changed the default of HARMONIC_VISC from true to false, and added lines
+    explicitly setting HARMONIC_VISC in the GOLD_input files for the DOME,
+    double_gyre, and circle_obcs test cases.
+  o Moved the heat capacity (C_p) into the thermo_var_ptrs type and the forcing
+    type so that it is initialized in just one place and used consistently
+    throughout the code.
+  o Added examples/GOLD_SIS_025 with best guess configuration
+  o Changed the default of FULL_THICKNESSDIFFUSE from .false. to .true., and
+    added a line to the DOME GOLD_input file to avoid changing solutions.
+  o Added a second call to Radiation_Open_Bdry_Conds for the predictor step and
+    changed the reference solutions in the circle_OBCs test case.
+  o Incorporated the effects of viscosity into the definition of the face areas
+    that are stored in the BT_cont_type.  This change appears to make these
+    face areas useful in the dynamical core (i.e., it fixes an obvious failing)
+    when BT_THICK_SCHEME is set to FROM_BT_CONT.
+  o Corrected a bug that caused a failure when PFu_bt is registered but PFv_bt
+    is not.
+  o Added a diagnostic of the fractional thicknesses for the predictor call to
+    btcalc.
+  o Changed the Coriolis code with ARAKAWA_LAMB_BLEND so that it should reproduce
+    the Sadourny energy scheme when CORIOLIS_BLEND_F_EFF_MAX is 2.
+  o Added logging of CORIOLIS_BLEND_F_EFF_MAX and CORIOLIS_BLEND_WT_LIN.
+  o Added visc_rem_[uv] as arguments to a pre-predictor-step call to continuity
+    without FLUX_BT_COUPLING so that the calculation of the BT_CONT_TYPE is
+    more consistent for the predictor and corrector steps.  This can change
+    answers, although it does not in the test cases.
+
+GOLD_siena_apr12_2012_ogrp (4/12/12):
+  o Made a couple of arrays in GOLD_tidal_forcing always dynamic so that the
+    pgi complier will give the same answers for static or dynamic code.  This
+    also changed the answers at the bit-level for the pgi reference solutions
+    to the global and nonBous test cases.
+  o Made the value of DEBUG the default for DEBUG_BT.
+  o Added "ts_range" as an option for COORD_CONFIG, along with the subroutine
+    set_coord_from_TS_range and 5 new run-time parameters (TS_RANGE_T_LIGHT,
+    TS_RANGE_RESOLN_RATIO, etc.) that specify the layer target densities.
+  o Overhauled benchmark_initialization.F90 to give a much more sensible set
+    of initial conditions for the benchmark test case, and checked in a new
+    set of reference solutions.
+  o Changed the default of ANALYTIC_FV_PGF from false to true.
+  o Eliminated and obsoleted the run-time options RIGA_ENTRAINMENT_FOIBLES,
+    RIGA_KAPPA_SHEAR_BUGS1, RIGA_KAPPA_SHEAR_BUGS2, RIGA_TRACER_DIFFUSE_BUGS,
+    CONT_PPM_RIGA_BUGS, USE_REPRODUCING_SUM (now always true), and
+    SLOW_BITWISE_GLOBAL_FORCING_SUMS.
+  o Added a subroutine query_compressible to determine whether the equation of
+    state is compressible.
+  o Added a logical test to prevent the use of the Montgomery potential form of
+    the pressure gradient force with a compressible fluid, since ANALYTIC_FV_PGF
+    is a much better choice in this instance.
+  o Removed the optional Compress_CS variable from the various PressureForce
+    initialization routines.
+  o Replaced the calls to uncompress_p_alpha and uncompress_e_rho with code to
+    simply store the specific volume or density when there is an equation of
+    state but no compressibility, and eliminated calls to Grad_z_estar and
+    Grad_p_pstar altogether, consistent with moving to use only ANALYTIC_FV_PGF
+    for compressible fluids.  This should give similar answers in this case, but
+    has not been well tested.  Also eliminated the optional arguments drho_star
+    from Set_pbce_Bouss and dalpha_star from Set_pbce_nonBouss.
+  o Removed the files GOLD_CompressComp.F90 and GOLD_fit_compress.F90 and the
+    subroutines set_ref_profile and USER_set_ref_profile while making obsolete
+    the 5 run-time variables REF_COMPRESS_3D, COMPRESS_FILE, and
+    REF_COMPRESS_FILE_{TEMP|SALT|DEPTH}.  These (unused) variables were removed
+    from a number of GOLD_input files.
+  o Added subroutines in GOLD_obsolete_params to make tests for obsolete
+    logical or character parameters take only a single line.
+  o Removed GOLD/examples/single_column/data_table
+  o Changed the default of CFL_BASED_TRUNCATIONS to true, and also added lines
+    to #undef CFL_BASED_TRUNCATIONS to the GOLD_input files for CM2G, CM2G63L
+    and GOLD_SIS so that the answers don't change.
+  o Changed the value of CFL_BASED_TRUNCATIONS to true for the CM2G, CM2G63L,
+    and GOLD_SIS test cases, and checked in new reference solutions.
+  o Added #define BETTER_BOUND_KH in numerous GOLD_input files.
+  o Added #define BETTER_BOUND_AH in numerous GOLD_input files.  This changes
+    the solutions in the CM2G, CM2G63L, GOLD_SIS, MESO_025_63L, global, and
+    nonBous_global test cases, and new reference solutions were checked in.
+  o Increased the resolution of the DOME test case from 50 km to 10 km, with a
+    configuration that is also discussed in Legg et al. (2006, O. Mod.).  New
+    reference solutions were checked in, along with a version of GOLD_memory.h
+    that uses 20 processors.
+  o Changed the DOME test case to use #define FULL_THICKNESSDIFFUSE and checked
+    in new reference solutions.  The DOME solutions change very slightly.
+  o Changed the DOME test case to use #define CONTINUITY_PPM and checked in new
+    reference solutions.  The DOME solutions change modestly.
+  o Changed the DOME test case to use the Jackson-Hallberg-Legg (2008) shear
+    mixing parameterization and checked in new reference solutions.
+  o Changed the DOME test case to not use RIGA_SET_DIFFUSIVITY, and checked in
+    revised reference solutions, which change only slightly.
+  o Corrected a bug that would cause BETTER_BOUND_AH and BETTER_BOUND_KH not
+    to reproduce across PEs with a Cartesian grid and static memory, so that
+    KH_MAX_xx, KH_MAX_xy, AH_MAX_xx, and AH_MAX_xy are no longer reduced-rank
+    macros.  Also made sure that these arrays are allocated whenever they could
+    be used.  This bug affected only the DOME test case with recent revisions.
+  o Changed the default setting for BETTER_BOUND_AH and BETTER_BOUND_KH from 
+    false to the values of BOUND_AH and BOUND_KH.  The test cases had already
+    been prepared for this.
+  o Changed the DOME initialization code to avoid a segmentation fault in the
+    DOME test case without symmetric memory.  This does not appear to have
+    altered the solutions, as it only occurred in the halo regions, and the new
+    calculation happens to work on real integers.  New reference solutions were
+    checked in for the DOME test case (the have been confirmed to reproduce with
+    static or dynamic memory).
+  o Added code to interpret a negative value of DT_BT_FILTER as a nondimensional
+    fraction of DT.
+  o With open boundary conditions, set OBC_mask_[uv] over a slightly larger area
+    so that they will reproduce across PE count.  The previous reference
+    solutions appear not to have triggered this behavior, but it does fix a
+    failure to reproduce across PEs in new DOME configurations.
+  o Updated the DOME test case to use the new "linearization" barotropic solver
+    with the BT_CONT_TYPE, BT_PROJECT_VELOCITY, BT_USE_LAYER_FLUXES and time
+    filtering, along with new reference solutions.
+  o Changed DT_BT_FILTER to -0.25 in the DOME test case, to give the same answer
+    but to a setting that is resolution invariant and likely to be relevant for
+    many different experiments.
+  o Changed GFS from 0.98 to 9.80 in the DOME test case and checked in new
+    reference solutions.
+  o Shortened the DOME reference solutions from 20 days to 5 days.
+  o Removed multiple unused parameters from the DOME GOLD_input file.
+  o Set default values of 0 for the run-time parameters AH and KH.
+  o Added the options READ_ALL_PARAMS and LOG_ALL_PARAMS to GOLD_hor_visc.F90
+    to make it read and possibly log all of its parameters, even if they are not
+    used, so that valid parameters can be checked for in the GOLD_input file and
+    a comprehensive list of valid run-time options can be obtained.
+  o Changed the global, nonBous_global, and MESO_025_63L test cases to use
+    USE_JACKSON_PARAM in place of USE_H2000_SHEAR_MIXING, and checked in new
+    reference solutions.
+  o Changed the global, nonBous_global, and MESO_025_63L test cases to no longer
+    use OLD_RESTRAT_PARAM, and checked in new reference solutions.
+  o Changed the global, nonBous_global, and single_column test cases to use
+    FULL_THICKNESSDIFFUSE.
+  o Changed the global, nonBous_global, MESO_025_63L, and single_column test
+    cases to use DIFFUSE_ISOPYCNALS.  This did not change answers because it
+    only has an effect without FULL_THIKCNESSDIFFUSE.
+  o Explicitly set the values of BT_COR_FRAC and BT_COR_SLOW_RATE in the
+    GOLD_input files for the double_gyre, global, MESO_025_63L, and
+    nonBous_global test cases, in preparation for changing the defaults.
+  o Changed USE_LOCAL_PREF to true in the benchmark, global, nonBous_global, and
+    MESO_025_63L test cases, and checked in new reference solutions.
+  o Changed multiple test cases to explicitly #undef RIGA_SET_DIFFUSIVITY, and
+    checked in new reference solutions in the CM2G, MESO_025_63L, benchmark,
+    global, nonBous_global, and single_column test cases.
+
+Tag GOLD_siena_Mayday_2012_ogrp (5/1/2012):
+  o Eliminated the older option selected with #define OLD_RESTRAT_PARAM.
+  o Eliminated the older code selected with #undef FULL_THICKNESSDIFFUSE.
+  o Eliminated the code to call Entrainment_H2000.
+  o Created subroutines for quickly checking for obsolete real or integer
+    parameters.
+  o Obsoleted the parameters OLD_RESTRAT_PARAM, ML_RESTRAT_COEF,
+    FULL_THICKNESSDIFFUSE, DIFFUSE_ISOPYCNALS, USE_H2000_SHEAR_MIXING,
+    SHEARMIX_LAT_EQ, RINO_CRIT_EQ, SHEARMIX_RATE_EQ.
+  o Eliminated OLD_RESTRAT_PARAM and ML_RESTRAT_COEF from all GOLD_input files.
+  o Changed the default for USE_LOCAL_PREF to true.
+  o Changed the default for RIGA_SET_DIFFUSIVITY to false.
+  o Changed the defaults for BT_COR_SLOW_RATE to 0.0 and the default for
+    BT_COR_FRAC to 1.0.
+  o Eliminated and obsoleted the run-time parameter RINOMIX, which is now
+    redundant with USE_JACKSON_PARAM.
+  o Changed the default of LARGE_FILE_SUPPORT to true.
+  o Eliminated the option with #undef USE_LOCAL_PREF and obsoleted USE_LOCAL_PREF.
+  o Replaced the forcing-type argument to Calculate_kappa_shear with a pointer
+    to the surface pressure (which may be unallocated).
+  o Removed the file GOLD_entrain_H2000.F90.
+  o Changed the MESO_025_63L example to use similar diapycnal diffusivities to
+    CM2G63L and the new "linearization" barotropic solver with the BT_CONT_TYPE,
+    BT_PROJECT_VELOCITY, BT_USE_LAYER_FLUXES and time filtering.  Also checked
+    in new reference solutions.
+  o Removed unused variables from the MESO_025_63L GOLD_input file.
+  o Shortened the DOME test case to 5 days in input.nml, to agree with
+    the reference GOLD_input file.
+  o Removed the code enabled by #define RIGA_SET_DIFFUSIVITY and obsoleted
+    RIGA_SET_DIFFUSIVITY.
+  o Changed the default for CONTINUITY_PPM to true.
+  o Replaced the functionality of CONTINUITY_PPM with the character string
+    PPM_SCHEME, which may be "CONTINUITY_PPM" or "HALLBERG95".  CONTINUITY_PPM
+    has been obsoleted.
+  o Added the option to have continuity_PPM actually use a 1st order upwind
+    scheme with #define UPWIND_1ST_CONTINUITY.
+  o Made the stensil sizes that are effectively used in continuity_PPM reflect
+    the actual stensil sizes of the algorithms used, giving the possibility of
+    running with a smaller halo.
+  o Changed the single_column test cases's continuity solver to PPM with
+    UPWIND_1ST_CONTINUITY, and checked in new reference solutions.
+  o Eliminated HALLBERG95 as a valid option for the continuity solver.
+  o Eliminated unused module use statements from GOLD_continuity.F90.
+  o Really deleted the code that reads the parameter CONT_PPM_RIGA_BUGS.
+  o Eliminated the subroutine vertvisc_remean from GOLD_vert_friction.F90.
+  o Eliminated the file GOLD_continuity_Hallberg95.F90.
+  o Added code to give a fatal error if BULKMIXEDLAYER is defined but USE_EOS is
+    not, and eliminated code in many places that dealt with that (atypical)
+    configuration.  Note that this setup can be recovered by using a linear
+    equation of state.
+  o Merged the changes in solo_driver/GOLD_surface_forcing.F90 and
+    solo_driver/user_surface_forcing.F90 into their counterparts in
+    ice_solo_driver.
+  o Changed the variable state%Rml to state%sfc_density for greater clarity and
+    to help unabiguously work toward eliminating tv%Rml.
+  o Added an explicit call to calculate_density in GOLD_entrain_diffusive.F90,
+    to eliminate any dependency on the status of tv%Rml.  Answers are unchanged.
+  o Added an explicit calls to calculate_density in GOLD_set_diffusivity.F90,
+    to eliminate any dependency on the status of tv%Rml.  Answers are unchanged.
+  o Eliminated all of the code in GOLD_mixedlayer.F90 that does not use an
+    equation of state.
+  o Restructured aspects of the sponge code, so that the target mixed layer
+    potential density is specified via a new routine set_up_sponge_ML_density
+    and the mixed layer potential density is now an optional argument to
+    apply_sponge.
+  o Moved the diagnostic Rml from GOLD.F90 to GOLD_diagnostics.F90.  This same
+    variable can also be obtained as Rho_cv, which is a more appropriate name
+    for what this variable actually is.
+  o Completed the elimination of the tv%Rml variables.
+  o Changed some tests for ASSOCIATED(tv%T) into ASSOCIATED(tv%eqn_of_state).
+  o Changed the code for global sums to use the extended fixed point
+    representation, to increase the accuracy of detectable changes to round-off
+    compared with the largest individual cell, rather than roundoff compared
+    with the global quantities.  Also checked in new reference timestats files
+    for many test cases, although the solutions themselves did not change.
+  o Eliminated the CM2G test case.  CM2G63L is the CMIP5 configuration.
+  o Eliminated the obsolete flag CONTINUITY_PPM from all GOLD_input files.
+  o Changed the test cases so that all use CONTINUITY_CFL_LIMIT of 0.5.
+  o Changed the test cases so that all use CONT_PPM_BETTER_ITER. This changed
+    some answers very subtly, and some new reference solutions were checked in.
+  o Changed the test cases so that all now use CONT_PPM_USE_VISC_REM_MAX. This
+    changed some answers, and some new reference solutions were checked in.
+  o Changed the defaults of CONTINUITY_CFL_LIMIT to 0.5, CONT_PPM_BETTER_ITER
+    to true and CONT_PPM_USE_VISC_REM_MAX to true.
+  o Removed several obsolete parameters and corrected outdated comments in
+    numerous GOLD_input files, without changing any answers.
+  o Added an optional argument to close_param_file to disable parameter checking
+    or logging of the param_file settings in secondary calls. The close_param_file
+    call in ocean_model_flux_init now uses this option, and the get_GOLD_Input
+    call in the same routine has a flag to also disable this checking.
+  o Renamed RLAY_REF and RLAY_RANGE as LIGHTEST_DENSITY and DENSITY_RANGE, and
+    obsoleted RLAY_REF and RLAY_RANGE.
+  o Removed various unused parameters in the GOLD_input files for the CM2G63L,
+    GOLD_SIS, benchmark, circle_obcs, double_gyre, external_gwave, lock_exchange,
+    single_column, and torus_advection_test test cases.
+  o Made the parameter DTBT_RESET_PERIOD be read in all SPLIT cases for parameter
+    checking purposes.
+  o Replaced I_ZETA with INT_TIDE_DECAY_SCALE in the relevant test cases, and made
+    I_ZETA obsolete.
+  o Cleaned up the comments in the benchmark GOLD_input.
+  o Changed FLUXCONST in the benchmark GOLD_input from 1/86400 to 0.5, and
+    checked in new reference solutions.
+  o Changed the benchmark solution to not use MONOTONIC_CONTINUITY and checked
+    in new reference solutions.
+  o Changed the benchmark solution to not use CORIOLIS_EN_DIS and checked
+    in new reference solutions.
+  o Changed FOX_KEMPER_ML_RESTRAT_COEF to 5.0 in the benchmark GOLD_input, as is
+    appropriate for a model with aresolution of 1/4 degree.
+  o Changed the benchmark test case to use the new "linearization" barotropic
+    solver  with the BT_CONT_TYPE, BT_PROJECT_VELOCITY, BT_USE_LAYER_FLUXES,
+    "FROM_BT_CONT" for BT_THICK_SCHEME, and time filtering, along with new
+    reference solutions.
+  o Removed the archaic CM2G_ESM test case.
+  o Corrected the logging of FLUXCONST to undo the unit conversion from m day-1
+    to m s-1.
+  o Cleaned up the comments in GOLD_input for circle_obcs.
+  o Changed DTBT to -.95 (effectively 20.0) from 5.0 and BE from 0.7 to 0.6 in
+    circle_obcs, and checked in new reference solutions.
+  o Changed the circle_obcs solution to not use CORIOLIS_EN_DIS. This just
+    happened not to change the solutions.
+  o Changed the circle_obcs test case to use the new "linearization" barotropic
+    solver with the BT_CONT_TYPE, BT_PROJECT_VELOCITY, BT_USE_LAYER_FLUXES,
+    "FROM_BT_CONT" for BT_THICK_SCHEME, and time filtering, along with new
+    reference solutions.
+  o Cleaned up the comments in GOLD_input for external_gwave.
+  o Changed BE from 0.7 to 0.6 in external_gwave and checked in new reference
+    solutions.
+  o Changed the external_gwave solution to not use CORIOLIS_EN_DIS. This just
+    happened not to change the solutions.
+  o Corrected some bugs in the time-filtering code that gave negative weights
+    on some end points and filters that are not centered at the end of the
+    barotropic time step.  New reference solutions were checked in for the
+    cases with non-zero values for DT_BT_FILTER.
+  o Changed the external_gwave test case to use the new "linearization"
+    barotropic solver with the BT_CONT_TYPE, BT_PROJECT_VELOCITY, 
+    BT_USE_LAYER_FLUXES, "FROM_BT_CONT" for BT_THICK_SCHEME, and time filtering,
+    along with new reference solutions.
+  o Cleaned up the comments in GOLD_input for lock_exchange.
+  o Changed BE from 0.7 to 0.6 in lock_exchange and checked in new reference
+    solutions.
+  o Changed the lock_exchange solution to not use CORIOLIS_EN_DIS. This just
+    happened not to change the solutions.
+  o Changed the lock_exchange test case to use the new "linearization"
+    barotropic solver with the BT_CONT_TYPE, BT_PROJECT_VELOCITY, 
+    BT_USE_LAYER_FLUXES, "FROM_BT_CONT" for BT_THICK_SCHEME, and time filtering,
+    along with new reference solutions.
+  o Cleaned up the comments in GOLD_input for torus_advection_test.
+  o In torus_advection_test, changed BT from 0.7 to 0.6, changed not to use
+    CORIOLIS_EN_DIS, and changed to use the new "linearization"
+    barotropic solver with the BT_CONT_TYPE, BT_PROJECT_VELOCITY, 
+    BT_USE_LAYER_FLUXES, "FROM_BT_CONT" for BT_THICK_SCHEME, and time filtering,
+    none of which changed the solutions for this test case.
+  o Set sensible default values for a large number of run-time parameters that
+    had previously been required to be read.  Also changed some defaults to 
+    more modern values, like NKML and NKBL now both default to 2.  All of these
+    parameters had been explicitly set in the examples, which all give bitwise
+    identical results.
+  o Removed most of the lines in the DOME GOLD_input file that set parameters
+    to their default values.
+  o Made some changes to improve the consistency of parameter logging with the
+    default values.
+  o Changed the default for BOTTOMDRAGLAW to true.  As all examples set this
+    explicitly, answers are unchanged.
+  o Changed tv%nk_rml to grid%nk_rho_varies and added grid%nkml.  Both variables
+    are 0 without a bulk mixed layer.
+  o Eliminated references to BULKMIXEDLAYER from GOLD_mixed_layer_restrat.F90,
+    which is not called unless BULKMIXEDLAYER is true.
+  o Use the presence of a call to set_up_sponge_ML_density to determine whether
+    a bulk mixed layer is to be used by the sponges.
+  o In the various forcing routines, calculate fluxes%ustar regardless of
+    whether BULKMIXEDLAYER has been set.
+  o Eliminated numerous redundant calls to read BULKMIXEDLAYER by looking at
+    whether G%nkml>0.  Also eliminated several redundant reads of NKML and NKBL.
+  o Eliminated the remaining redundant reads of NKML and NKBL and some redundant
+    reads of TEMPERATURE.
+  o Changed the default for BULKMIXEDLAYER to be the same as TEMPERATURE and
+    warn if TEMPERATURE and ADIABATIC are both defined.
+  o Renamed the run-time parameter TEMPERATURE ENABLE_THERMODYNAMICS for
+    greater clarity and to make Alistair and Matt happy.
+  o Changed the DOME solution to not use CORIOLIS_EN_DIS and checked in new
+    reference solutions.
+  o Changed BE from 0.7 to 0.6 in DOME and checked in new reference solutions.
+
+Tag??? GOLD_user_add_diff_ogrp: ?????
+  o Changed the default for ENABLE_THERMODYNAMICS to true, and made the presence
+    of TEMPERATURE a warning if it is consistent with ENABLE_THERMODYNAMICS,
+    so that many previous GOLD_input files will still work.
+  o Changed the default for DOCUMENT_FILE to "GOLD_parameter_doc".
+  o Added an optional argument, component, to open_param_file and
+    close_param_file to enable non-GOLD models to have more appropriate default
+    document file names.
+  o Changed the code structure for GOLD_document so that all information is
+    now passed in through the interfaces, and the document file is only opened
+    just before it is first written to.
+  o Eliminated default values from the double_gyre GOLD_input.
+  o Added correct logging for the default values of KH, AH, and TIMEUNIT and
+    added parameter logging for ALWAYS_WRITE_GEOM.
+  o Changed the double_gyre values of BT_COR_FRAC and BT_COR_SLOW_RATE to their
+    default values and checked in new reference solutions.
+  o Changed the double_gyre solution to not use CORIOLIS_EN_DIS and checked in
+    new reference solutions.
+  o Changed BE from 0.7 to 0.6 and BEBT from 0.2 to 0.1 in double_gyre and
+    checked in new reference solutions.
+  o Added a new module, user_change_diffusivity, which can add diffusivity in
+    a specified latitude and density ranges for sensitivity studies.  It is
+    turned on with the run-time parameter USER_CHANGE_DIFFUSIVITY, and is
+    controlled by 4 new run parameters, USER_KD_ADD, USER_KD_ADD_LAT_RANGE,
+    USER_KD_ADD_RHO_RANGE, and USER_KD_ADD_USE_ABS_LAT.  There are also 2 new
+    run-time diagnostics, Kd_user and Kd_user_z.
+  o Eliminated the subroutine initalize_topography_flat, as the same answers
+    can be obtained with initialize_topography_named.
+  
+Tag: GOLD_May25_Angelique_ogrp (2012/5/25 - aja)
+  o Added two new options, "list" and "file" under CHANNEL_CONFIG, along with
+    two new subroutines - reset_face_lengths_list and reset_face_lengths_file -
+    for initializing the channel widths.  Examples of the channel list file
+    were checked in under the GOLD_SIS and GOLD_SIS_025 test cases.
+  o Corrected a bug in the specification of the location of the Strait between
+    Sakhalin Island and Russia with the global_1deg CHANNEL_CONFIG.  This does
+    change answers for the global and nonBous_global test cases with some
+    compilers, but not for CM2G63L or GOLD_SIS with any of the available
+    compilers.  New reference solutions were checked in where needed.
+  o Added the subroutine USER_init_ice_thickness to user_shelf_init.F90, and
+    pointed a call in GOLD_ice_shelf_initialize.F90 to this new subroutine, so
+    that the GOLD_ogrp branch of the code now compiles properly.
+  o Merged in Angelique Melet's code to apply the Polzin dissipation profile
+    to bottom-generated internal wave TKE fluxes.  The profile is selected with
+    the new run-time parameters INT_TIDE_PROFILE or LEE_WAVE_PROFILE, and there
+    are 5 new run-time coefficeintts for the POLZIN scheme.  By default all
+    answers are unchanged.
+
+Tag: GOLD_12Jun19_ogrp (2012/6/19 - aja)
+  o Added a new set of subroutines under the interface get_param to (1) set
+    parameters to a default value, (2) read them from a param file, and (3)
+    log them, all in a single call.
+  o Combined parameter defaults, read_param and log_param calls into single
+    calls to get_param in various files.
+  o Formally obsoleted NONLINEAR_EOS, in favor of USE_EOS.  This had previously
+    been done via warning messages in GOLD.F90.
+  o Removed GOLD_OCEAN_TOPAZ.F90 from the GOLD/src/tracer directory.  TOPAZ is
+    now used exclusively through the generic tracer facility.
+  o Created a new interface, GOLD_initialize_rotation, in GOLD_initialization.F90
+    to initialize the Coriolis parameter from any component, similarly to what
+    is done for topography.
+  o Properly set the Coriolis parameter in the ice_shelf code, changed ZETA_N
+    from 1/8 to 0.052, and fixed a sign error in the calculation of lprec, so
+    that the melt rates now correspond with what was used in the various Little
+    et al. papers.
+  o Formally obsoleted the run-time parameters MOREL_PEN_SW and MANIZZA_PEN_SW.
+
+Tag: end_of_c1ms_ogrp (2012/7/03 - aja)
+  o Replaced == with .eqv. and /= with .neqv. for logical relational operators
+  o Bug fix: type led to un-initialized state of Jedq in some tracer routines
+  o Finished combining parameter defaults, read_param and log_param calls into
+    single calls to get_param in various files.
+  o Fixed uninitialized arrays in GOLD_set_diffusivity.F90 that caused NaN's
+    in dynamic-memory mode with the PGI compiler.
+  o Changed the double_gyre test case to use the new dynamic core, and checked
+    in new solutions.
+  o Bug-fix: axis_units was not set at the right point in GOLD_surface_forcing()
+  o Fixed GNU gfortran compatibility issues:
+    - Does not allow ! comments are CPP statements
+    - Does not allow formatted i/o without specific widths (e.g. "(I)")
+
+Tag: c2_transition_ogrp (2012/7/06 - aja)
+  o Eliminated archaic macro EPSILON, which by now just set the default for the
+    run-time variable ANGSTROM, and replaced EPSILON with G%Angstrom_Z in
+    benchmark_initialization.F90.
+  o Removed the use of macros in the arguments for the initialize_rotation
+    routines, to enable them to be used with either the ice-sheet or ocean
+    components, which might make different choices regarding symmetric memory.
+  o Added a function, num_timelevels, that returns the number of time levels
+    a variable has in a NetCDF file, or 0 if it appears (based on the number of
+    dimensions) not to have any time levels.
+  o Made a minor change in GOLD_file_parser to avoid referencing element 0 of
+    an empty line.  This should not change answers, but would be caught by array
+    bounds checking.
+  o Changed the type of a diagnostic argument to allow GOLD_ice_shelf to
+    compile with the gnu compiler.
+  o Corrected a bug that was causing non-reproducibility (and incorrect answers)
+    in cases that are coupled with an ice shelf.
+  o Added timestats.gnu from c2 using gcc/4.6.3
+    Note: requires two fixes: cosp_driver.F90 and ensemble_manager.F90
+      diff -r19.0 ensemble_manager.F90
+      173c173,174
+      <        ensemble_pelist(n, atmos_npes+1:npes)  = ensemble_pelist_ocean(n, 1:ocean_npes)
+      ---
+      >        if (concurrent) &
+      >          ensemble_pelist(n, atmos_npes+1:npes)  = ensemble_pelist_ocean(n, 1:ocean_npes)
+      diff -r19.0 cosp_driver.F90
+      237c237
+      < real  :: time_bnds(2,ntsteps)
+      ---
+      > double precision  :: time_bnds(2,ntsteps)
+  o Updated timestats.intel and timestats.pgi to c2 results. Deleted timestats.pathscale
+
+Tag: GOLD_pubrel1_ogrp (8/1/2012 - rwh)
+  o Corrected the grid-type used in 3 chksum calls in GOLD_barotropic, to avoid
+    fatal errors with DEBUG and wide barotropic halos.
+  o Added code in GOLD_document to check whether the compiler is handling "\n"
+    and "\t" as single characters or as two characters, and format the output
+    documentation accordingly.  Without this, the first letter of many lines
+    of documentation were being lost with the pgi compiler.
+  o Added code to allow ocean-only runs to read in the same forcing files as are
+    written out by a coupled run (for instance) instead of just using the old
+    German OMIP decomposition.  This is enabled with the new run-time flag
+    #undef ARCHAIC_OMIP_FORCING_FILE.  Also added code to automatically handle
+    monthly or daily input files, and added numerous run-time variables to allow
+    the names of forcing fields in the input files to be changed.
+  o Allocate the non-symmetric auxiliary domain for all symmetric cases.
+  o Added code to allow ustar to be read from a file.
+  o Added code to have symmetric memory runs read non-symmetric C-grid
+    wind-stress forcing files.
+  o Checked in new solutions for global and nonBous_global that are based on the
+    GOLD_SIS test case.  The forcing files for these cases are in 
+    ../datasets/global/siena.
+  o Changed the global and nonBous_global test cases to use the new
+   "linearization" barotropic solver with the BT_CONT_TYPE, BT_PROJECT_VELOCITY,
+    BT_USE_LAYER_FLUXES, "FROM_BT_CONT" for BT_THICK_SCHEME, and time filtering,
+    along with new reference solutions.
+  o Obsoleted BT_COR_FRAC and BT_COR_SLOW_RATE and eliminated the relevant bits
+    of code.
+  o Made the default bathymetry variable always "depth".  TOPO_VARNAME can be
+    used to override this (as in the MESO test cases).
+  o Obsoleted the "file" option for GRID_CONFIG, and removed the related
+    subroutines. "mosaic" should now be used instead.
+  o Added support for a=b syntax in parameter files
+  o Implemented internal DB in GOLD_document to avoid repeated documentation
+    of parameters.
+    - Also allows flagging of inconsistent defaults, which is off by default.
+  o Avoid repetive warning messages about [safe] parameter overrides.
+  o Converted all the GOLD_input's to a=b syntax
+  o Changed the case of the k index for several interface variables to K,
+    following the convention used for horizontal indices.
+  o Corrected the symmetric-memory array sizes for a number of u- and v-point
+    temporary variables in btcalc.  Answers are unchanged.
+  o Added parentheses to the sum of 4 variables in the analytic finite volume
+    calculation of PFu and PFv.  Answers should now always reproduce across the
+    tripolar fold. This changes answers at the level of roundoff in 8 of the
+    test cases, and corrected answers have been checked in.
+  o In DOME_initialize_sponges, set up arrays with different vertical sizes
+    for the interfaces and any layer variables.
+  o Eliminated effectively unused instances of e_pert in several thickness
+    initialization routines.
+  o Restored some changes to GOLD_ice_shelf that were inadvertently lost with
+    the last check-in.
+  o Replaced the older memory macros like SZ1_() with the corresponding
+    macros like SZI_().
+  o Corrected an indexing bug inside of find_deficit_ratios in GOLD_vert_remap.F90.
+    This only affects diagnostic calculations.
+  o Combined and reordered some do loops in GOLD_set_diffusivity.F90.
+  o Separated out the reference interface heights from the reference tracer
+    values in the control structure for GOLD_sponges.
+  o Recoded num_timelevels to make it insensitive to the case of the variable
+    name, following the practice in read_data.
+  o Added support for reading &namelist and namelist% blocks in the parameter file
+    - documentation has NOT been implemented
+  o Added the CM2G test case, which is like CM2G63L but with the new
+   "linearization" barotropic solver.
+  o Corrected a bug in GOLD_generic_tracer.F90 that prevented the code from
+    compiling with the cpp macro _USE_GENERIC_TRACER defined, and relocated
+    the include line for GOLD_memory.h in ocean_model_GOLD.F90 so that
+    _USE_GENERIC_TRACER can be defined inside of this file instead of just on
+    the compile line.
+  o Changed the defaults for DO_IDEAL_VINTAGE and DO_IDEAL_AGE_DATED from
+    .true. to .false.
+
+Tag: GOLD_pubrel2_ogrp (9/24/2012 - rwh)
+  o Added the subroutine EFP_list_sum_across_PEs, as the EFP counterpart to
+    sum_across_PEs.  It currently only works for 1-d arrays of EFP types.
+  o Added the file GOLD_spatial_means, with subroutines global_i_mean and
+    global_j_mean, that take the (potentially masked) global averages along the
+    index directions.
+  o Changed the intent of the grid_type arguments to GOLD_initialize_rotation
+    and GOLD_initialize_topography from intent(in) to intent(inout) to allow
+    underlying routines to do things like write out diagnosed fields.
+  o Moved several diagnostic calculations of changes in total heat or salt
+    inside of logical tests for use_temperature to avoid undefined calulations
+    that are never used again.
+  o Corrected an indexing bug in the diagnostic calulation of the internal wave
+    speed and deformation radius when temperature and salinity are not state
+    variables.
+  o Added routines query_EFP_overflow_error and reset_EFP_overflow_error and an
+    optional argument, errors, to EFP_list_sum_across_PEs, to help in diagnosing
+    errors when using extended-fixed-point arithmetic, and added error checks
+    inside of global_i_mean and global_j_mean.
+  o Corrected the message of a get_param call in GOLD_diabatic_driver.
+  o Updated the gnu solutions to use gcc/4.7.0, reflecting the removal of
+    gcc/4.6.3.  The DOME solution is for the dynamic mode, and differs slightly
+    (with the gnu compiler only) from the static mode solution.  I do not know
+    why the gnu DOME solutions differ between static and dynamic mode, but have
+    tracked the change down to adding (but not using) and integer at the end
+    of the GOLD_sponge.F90 control structure.
+  o Added the interfaces init_spong_diags and sponge_end to GOLD_sponge.F90.
+  o Added optional arguments to initialize_sponge, set_up_sponge_field, and
+    set_up_sponge_ML_density to specify the zonal-mean properties that are to
+    be uniformly damped toward, along with code to perform this operation.
+  o Added parentheses to several sums of 3 variables in GOLD_sponge.F90 to
+    force the compiler to do the addition in a standard order; this does not
+    appear to have changed any answers except in the MESO test case.
+  o Checked in new reference solutions for MESO_025_63L, as a result of the
+    parentheses added on GOLD_sponge.F90.
+  o Added calls to init_sponge_diags within initialize_GOLD.  These are here
+    instead of in initialize_sponge because of some unusual calling patterns
+    and available arguments that made this initialization impractical otherwise.
+  o Added the subroutines adiabatic and adiabatic_driver_init inside of
+    GOLD_diabatic_driver.F90 as counterparts to diabatic and diabatic_driver_init
+    that can be used to invoke call_tracer_column_fns even in an adiabatic
+    configuration, and added code to call these subroutines when appropriate.
+  o Added the option MEKE_RD_MAX_SCALE to use the minimum of the grid-spacing
+    or the deformation radius as the length scale when converting MEKE into a
+    horizontal diffusivity.  Because MEKE was not yet used in any test cases,
+    the default was set to .true., which is a better choice even though it will
+    change answers from the previous code when MEKE is used.
+  o Added a new field, Rd_dx_h, the ratio of the deformation radius to the grid
+    spacing, to the MEKE_type, and stored this variable inside of
+    GOLD_thickness_diffuse.F90.
+  o Corrected two bugs in GOLD_thickness_diffuse.F90 in the calculation of
+    Work_h, the potential energy released by thickness mixing. One bug caused
+    an underestimate of energy released by a factor of 2 in all cases, while
+    the other caused the value to be off by a factor of G/rho_0 (usually ~0.01)
+    when no equation of state is used.  Neither bug affected any existing test
+    cases.
+  o Recoded the resolution power function in GOLD_lateral_mixing_coeffs.F90 not
+    to raise the coeffient by the power in pre-processing, but rather to wait
+    until the actual calculation.  This is mathematically identical, but avoids
+    some complications that arise when a larger power is permitted (see below).
+  o Added code so that when KH_RES_FN_POWER is set to be greater than 100, GOLD
+    uses a step-function for the resolution function in place of the power law.
+  o Added the file midas_vertmap.F90, which enables the model to initialize its
+    layers directly from a latitude-longitude depth-space file with temperature
+    and salinity.
+  o Updated the comments at the beginning of GOLD.F90.
+  o Added a license and comments at the beginning of GOLD_dynamics_....F90 and
+    GOLD_CS_type.F90.
+  o Removed unused module use statements from GOLD_CS_type.F90.
+  o Moved the statement calculating eta_out in btstep back a bit so that
+    eta_in and eta_out can safely be the same thing.
+  o Added a license statement to a number of files where it was missing.
+  o Removed the pointer to a 3-d eta from the ocean_internal_state type.  This
+    was not being used, but might be restored later as a 2-d field.
+  o Reduced the index range over which eta_src, CS%eta_cor, and CS%eta_source
+    are calculated to only the computational domain to avoid doing the
+    calculation where there is no data, instead relying on a halo update or
+    initialization to 0.
+  o Set up a new variable, eta_pred, for the predictor value of the free
+    surface height or bottom pressure anomaly in GOLD_dynamics_split_RK2, which
+    will enable eta_in to be the same as eta_out in GOLD_dynamics_split_RK2.
+  o Created a directory config_src/dynamic_symmetric, and placed a symmetric
+    memory version of GOLD_memory.h in this directory.
+  o Updated and tested the 3 README files.
+  o Cleaned up various unnecessary comments.
+  o Add a test to cause an error if certain Flather boundary conditions are
+    used with a non-symmetric model.
+  o Changed the default for AVAILABLE_DIAGS_FILE to './available_diags.######',
+    where ###### is the number of the root PE, so that the available GOLD
+    diagnostics are listed by default.  The ###### are there to avoid potential
+    file conflicts if this capability becomes more widely used.
+  o Added calls to diag_mediator_close_registration to the various drivers so
+    that the available diagnostics files will be closed cleanly at the end of
+    the initialization phase.
+  o Changed the CM2G test case to utilize CORIOLIS_EN_DIS and
+    REGULARIZE_SURFACE_LAYERS, and checked in new reference solutions.
+  o Added "implicit none ; private" to midas_vertmap.F90 and explicitly
+    declared its public interfaces.
+  o Changed the code for GOLD_temp_salt_initialize_from_Z to use the F90
+    interfaces to NetCDF in GOLD_initialization.F90, and extensively revised
+    this newish code to fit with standard GOLD practice with respect to module
+    use statements, documentation, error messages, and run-time flexibility in
+    file and input variable names.  This includes adding the new run-time
+    parameters Z_INIT_FILE_PTEMP_VAR and Z_INIT_FILE_SALT_VAR.
+  o Changed the CM2G test case to use run-time initialization from a Z-space
+    input file on a latitude-longitude grid, and checked in new solutions.
+    This requires access to the file WOA05_pottemp_salt.nc to work.
+  o Removed the extra (unneeded) time-dimension in the eta element of the
+    master GOLD_control_struct type.  Answers are unchanged.
+  o Removed unused types from some module use statements.
+  o Added the previous velocity fields u_prev and v_prev to the
+    ocean_internal_state type and the master GOLD_control_struct.  These are
+    allocated and used when DEBUG_TRUNCATIONS is true.
+
+Tag: GOLD_pubrel3_ogrp ###BASIS OF THE GOLD PUBLIC RELEASE### (9/27/2012 - rwh)
+  o Corrected two instances where single quotes were used with double quotes.
+  o Broke up a multi-line output message into a concatenation of single-line
+    character strings.
+  o Reinitialized the variable "inconsistent" to 0 to avoid complaints by the
+    Cray compiler.  (This does nothing to the solution.)
+  o Updated README_configure to note the existence of the list of available
+    diagnostics.
+
+Untagged changes (subsequent to tag GOLD_pubrel3_ogrp):

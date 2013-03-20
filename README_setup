@@ -1,0 +1,239 @@
+#    This file contains instructions to set-up, compile and run GOLD test cases
+#  on the NOAA "Gaea" computer.  Other computer systms will work differently.
+#  This example has a static memory coupled model CM2G, GOLD_SIS and dynamic
+#  solo-models side-by-side.  As parts of the CM2G coupled model are not yet
+#  publicly available, CM2G is commented out in this example.
+
+#   This is example utilizes the GOLD and shared code, as well as the extra code
+# directories containing the additional source necessary for building
+# GOLD_SIS and CM2G.  Other examples for code configuration are available
+# on the GOLD wiki page, available internally at GFDL at
+#   http://cobweb.gfdl.noaa.gov/~aja/GOLD/
+# or publicly at
+#   http://code.google.com/p/gold-omod/wiki/DocumentationOverview
+
+#   The following was tested by cutting and pasting it in a tty using a
+# tcsh shell on NOAA's Gaea computer. 
+
+#   Before executing these commands, move to whatever working directory you want
+# to use as your root working directory.
+set work_dir = `pwd`
+
+# Option 1: Working via CVS from inside of a GFDL/NOAA machine.
+  # Check out the relevant GOLD code.
+  cvs co -kk -r GOLD_ogrp -P GOLD
+  cvs up -r null_ice_shelf_ogrp GOLD/src/ice_shelf
+  cvs co -kk -r siena_201203 -P shared
+  cvs co -kk -r fre-commands-bronx-2 -P -d site fre/fre-commands/site
+  cvs co -kk -r fre-commands-bronx-2 -P -d bin bin-pub
+  mkdir extras
+  (cd extras; cvs co -kk -r siena_201203 -P -d GOLD_SIS atmos_null atmos_param/diag_integral atmos_param/monin_obukhov coupler ice_sis ice_param land_null)
+  (cd extras; cvs up -r diamonds_ogrp -P -d GOLD_SIS/ice_sis)
+  (cd extras; cvs co -kk -r siena_201203 -P -d CM2G atmos_coupled atmos_fv_dynamics atmos_param atmos_shared coupler ice_param land_lad land_param)
+  (cd extras/CM2G; ln -s ../GOLD_SIS/ice_sis .)
+  rm -rf extras/CM2G/atmos_fv_dynamics/driver/solo
+
+  # To create a tar-ball at this point, do
+  #   tar -cf GOLD.tar .
+
+# Option 2: Working from a tar-ball of the GOLD code.
+  # If working from a tar-ball, instead of the above, use at this point.
+  #   tar -xf GOLD.tar
+
+
+#  Set appropriate modules (i.e. compiler versions.)
+module unload PrgEnv-cray
+module unload PrgEnv-gnu
+module unload PrgEnv-intel
+module unload PrgEnv-pathscale
+module unload PrgEnv-pgi
+
+module load PrgEnv-intel/4.0.46
+module switch intel intel/12.0.5.220
+module load netcdf/4.1.3
+set compiler = intel
+
+# Compile GOLD.  To compile a (much slower) debugger-friendly version of the model, 
+#    change REPRO=1 to DEBUG=1 in the make commands below.
+
+set build = `pwd`/build
+mkdir -p $build
+(cd $build; mkdir -p shared solo GOLD_SIS CM2G solo.symmetric)
+
+cd $build/shared
+rm path_names || :
+../../bin/list_paths ../../shared/
+mv path_names pt_orig
+egrep -v "atmos_ocean_fluxes|coupler_types|coupler_util" pt_orig > path_names
+../../bin/mkmf -t ../../site/ncrc/$compiler.mk -p libfms.a -c "-Duse_libMPI -Duse_netCDF" path_names
+make NETCDF=4 REPRO=1 -j 6
+make -j libfms.a
+
+cd $build/solo
+ln -sf ../shared/*.{o,mod} .
+rm path_names || :
+../../bin/list_paths ../../GOLD/config_src/dynamic/ ../../GOLD/config_src/solo_driver/ ../../GOLD/src/ ../../shared/
+../../bin/mkmf -t ../../site/ncrc/$compiler.mk -p GOLD -c "-Duse_libMPI -Duse_netCDF" path_names
+make NETCDF=4 REPRO=1 -j 6
+
+cd $build/solo.symmetric
+ln -sf ../shared/*.{o,mod} .
+rm path_names || :
+../../bin/list_paths ../../GOLD/config_src/dynamic_symmetric/ ../../GOLD/config_src/solo_driver/ ../../GOLD/src/ ../../shared/
+../../bin/mkmf -t ../../site/ncrc/$compiler.mk -p GOLD -c "-Duse_libMPI -Duse_netCDF" path_names
+make NETCDF=4 REPRO=1 -j 6
+
+cd $build/GOLD_SIS
+ln -sf ../shared/*.{o,mod} .
+rm path_names || :
+../../bin/list_paths ../../GOLD/config_src/dynamic/ ../../GOLD/config_src/coupled_driver/ ../../GOLD/{examples/GOLD_SIS/,src/} ../../shared/ ../../extras/GOLD_SIS/
+../../bin/mkmf -t ../../site/ncrc/$compiler.mk -p GOLD -c "-Duse_libMPI -Duse_netCDF" path_names
+make NETCDF=4 REPRO=1 -j 6
+
+cd $build/CM2G
+ln -sf ../shared/*.{o,mod} .
+rm path_names || :
+../../bin/list_paths ../../GOLD/config_src/dynamic/ ../../GOLD/config_src/coupled_driver/ ../../GOLD/src/ ../../shared/ ../../extras/CM2G/*/
+../../bin/mkmf -t ../../site/ncrc/$compiler.mk -p GOLD -c "-Duse_libMPI -Duse_netCDF -DSPMD -DLAND_BND_TRACERS" path_names
+make NETCDF=4 REPRO=1 -j 6
+
+cd $work_dir
+echo Done with build phase.
+
+# Now run the model.  The syntax of the run command will vary from computer to
+#   computer, and how an mpi session is invoked.  The -n 8 says to use 8 PEs,
+#   but you should be able to use more or less PEs, depending on the size of
+#   your computer.  The numbers given here are the numbers we often use on Gaea.
+#   On Gaea, you will have to log on to batch nodes at this point with:
+msub -I -X -m n -q debug -l size=96 -l walltime=02:00:00
+set work_dir = `pwd`
+set build = $work_dir/build
+#   on other computers this will almost certainly be unnecessary.
+
+# input_data_dir will be site specific, depending on where you unpacked the forcing
+# datasets that can be obtained from 
+#    wget ftp.gfdl.noaa.gov:/perm/GOLD/pubrel1/global_input.tar.gz
+#    wget ftp.gfdl.noaa.gov:/perm/GOLD/pubrel1/GOLD_SIS_input.tar.gz
+#    wget ftp.gfdl.noaa.gov:/perm/GOLD/pubrel1/CM2G63L_input.tar.gz
+# The following example will work on Gaea without recompling.
+
+set input_data_dir = /lustre/fs/pdata/gfdl_O/datasets/
+
+# To run double_gyre:
+cd $work_dir/GOLD/examples/double_gyre
+mkdir RESTART
+aprun -n 8 $build/solo/GOLD
+
+# To run circle_obcs (Note the different executable required here!):
+cd $work_dir/GOLD/examples/circle_obcs
+mkdir RESTART
+aprun -n 1 $build/solo.symmetric/GOLD
+
+# To run DOME:
+cd $work_dir/GOLD/examples/DOME
+mkdir RESTART
+aprun -n 20 $build/solo/GOLD
+
+# external_gwave, lock_exchange, and torus_advection test have run commands
+# that are similar to DOME but typically use 4 PEs.
+
+# To run benchmark:
+cd $work_dir/GOLD/examples/benchmark
+mkdir RESTART
+aprun -n 72 $build/solo/GOLD
+
+# To run global (nonBous_global is similar):
+cd $work_dir/GOLD/examples/global
+mkdir INPUT RESTART
+# In a non-GFDL setup, the following data path may have to be altered.
+(cd INPUT; ln -sf $input_data_dir/global/siena_201204/{INPUT,mosaic.unpacked}/* .)
+aprun -n 60 $build/solo/GOLD
+
+# To run GOLD_SIS:
+cd $work_dir/GOLD/examples/GOLD_SIS
+mkdir INPUT RESTART
+# In a non-GFDL setup, the following data path may have to be altered.
+(cd INPUT; ln -sf $input_data_dir/GOLD_SIS/riga/{INPUT,mosaic.unpacked}/* .)
+aprun -n 60 $build/GOLD_SIS/GOLD
+
+# To run CM2G63L:
+cd $work_dir/GOLD/examples/CM2G63L
+mkdir INPUT RESTART
+# In a non-GFDL setup, the following data paths may have to be altered.
+(cd INPUT; ln -sf $input_data_dir/CM2G63L/siena/{INPUT,mosaic.unpacked}/* .)
+(cd INPUT; ln -sf $input_data_dir/CM2G63L/siena/RESTART/CM2G.initCond_2011.12.16.unpacked/* .)
+aprun -n 90 $build/CM2G/GOLD
+
+# To run CM2G (is similar to CM2G63L but with an extra file):
+cd $work_dir/GOLD/examples/CM2G
+mkdir INPUT RESTART
+# In a non-GFDL setup, the following data paths may have to be altered.
+(cd INPUT; ln -sf $input_data_dir/CM2G63L/siena/{INPUT,mosaic.unpacked}/* .)
+(cd INPUT; ln -sf $input_data_dir/CM2G63L/siena/RESTART/CM2G.initCond_2011.12.16.unpacked/* .)
+(cd INPUT; ln -sf $input_data_dir/obs/WOA05_pottemp_salt.nc .)
+aprun -n 90 $build/CM2G/GOLD
+
+echo "Done with examples"
+
+
+  Some of these examples use parallel I/O, and write out numerous
+domain-decomposed Netcdf files, which can be recognised by their suffix
+.nc.#### or .nc.###### (where # is a number from 0-9).  These can be combined
+using the mppnccombine utility, for example, to combine the various
+ocean_month.nc.#### files, the command would be
+  mppnccombine -r ocean_month.nc
+
+
+The resulting directory structure for this example is diagrammed below.
+The top level directory, in this example ., is the top of your work space.
+
+.
+|-- GOLD
+|   |-- config_src
+|   |   |-- coupled_driver
+|   |   |-- dynamic
+|   |   `-- solo_driver
+|   |-- examples
+|   |   |-- CM2G
+|   |   |-- CM2G63L
+|   |   |-- DOME
+|   |   |-- GOLD_SIS
+|   |   |-- MESO_025_63L
+|   |   |-- benchmark
+|   |   |-- circle_obcs
+|   |   |-- double_gyre
+|   |   |-- external_gwave
+|   |   |-- global
+|   |   |-- lock_exchange
+|   |   |-- nonBous_global
+|   |   |-- single_column
+|   |   `-- torus_advection_test
+|   `-- src
+|       |-- core
+|       |-- diagnostics
+|       |-- equation_of_state
+|       |-- framework
+|       |-- initialization
+|       |-- parameterizations
+|       |   |-- lateral
+|       |   `-- vertical
+|       |-- tracer
+|       `-- user
+|-- bin
+|-- build
+|   |-- CM2G
+|   |-- GOLD_SIS
+|   |-- shared
+|   |-- solo
+|   `-- solo.symmetric
+|-- extras
+|   |-- CM2G
+|   |   |-- atmos_coupled
+|   |   |   ...
+|   |    `-- land_param
+|   `-- GOLD_SIS
+|       |-- atmos_null
+|       |   ...
+|       `-- land_null
+|-- shared
+`-- site

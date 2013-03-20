@@ -1,0 +1,118 @@
+
+                      Configuring and running GOLD
+
+
+  Each file in GOLD is intended to be self-documenting, with comments explaining
+what each module and subroutine is intended to do, and with comments describing
+the purpose and units of each variable.  All information is moved around via
+arguments, making it easy to trace the movement of data.
+
+There are several working examples provided with the code, which should be
+referred to to help clarify the setup procedure.
+
+
+Run-time input:
+
+  There are just 5 namelist input variables used by GOLD, all under
+GOLD_input_nml in the file input.nml.  3 of these are the paths the directories
+the model uses.  The model output is written into $output_directory, while the
+final restart files are written in $restart_output_dir, and the model might read
+its initial restart data from $restart_input_dir.  Whether the model starts from
+a restart file or a list of files or based on internal settings is determined by
+the value of input filename:  'n' for a new (internally initialized ) run, 'r'
+for a run started from a restart file, or a list of files to read as though they
+were a (potentially partial) restart file.  There are some variables in restart
+files that can be approximately regenerated from other variables - for example
+layer velocities can approximate a time-mean barotropic velocity - and these are
+not required to be in a list of files, but they are in the model generated
+restart file so that the results are bitwise identical regardless of whether a
+restart occurred.  Finally, the absolute path to one or more files that are
+parsed to give all the model parameters and settings are given by
+$parameter_filename; in most of the examples, $parameter_filename is set to
+'./GOLD_input', './GOLD_override' indicating that there are two input files,
+both in the current directory.
+
+  The input files are where (almost) all run-time configurable model parameters
+are set.  Each of these are set (or unset) with a CPP-style syntax, and comments
+in these files explain the purpose and units of each file.  Inside of the code,
+these are read by name with calls to `read_param`, and searching for the calls
+associated with a variable is a good way to figure out where and how each is
+actually used.  There may be a default value that is set internally, but each
+module has at least one run-time variable that must be read successfully or
+there is a fatal error as a guard against unreadable input files.  The input
+files can also contain calls to override the values that were previously set. 
+This is a convenient way to keep track of perturbations between runs.  All
+run-time values are logged in a logfile (usually logfile.0000.out), which can be
+checked to see what the model actually used.
+
+  For initialization, there are a number of different options, but essentially
+every initial value has the option to be set from a file, from internal
+parameter-driven examples, or from user-provided code.  See
+src/initialization/GOLD_initialization.F90 for the settings to read the initial
+conditions from the file, or edit src/user/user_initialization.F90 to code up
+analytical initial conditions.
+
+
+Forcing:
+
+  Forcing GOLD is complicated by the fact that there are two completely distinct
+ways to force the model.  In the case of a coupled model, all the forcing fields
+are passed to the ocean via the calls to update_ocean_model.  These input
+structures are converted from the atmosphere's peculiar sign conventions and
+placed into arrays in an internal ocean structure with halos added.  The code to do
+this resides in config_src/coupled_driver.
+
+  In the case of an ocean only (i.e. no sea ice) model, the forcing fields are
+set by the code in config_src/solo_driver.  These might be read from a file, or
+are given by internally coded functions, or by user-provided code that should be
+put into config_src/solo_driver/user_surface_forcing.F90. 
+
+
+Output:
+
+  As the model runs, it periodically writes out the model time and total energy
+to stdout, mostly so that you know it is still going.
+
+  Most time-varying output is specified by editing the diag_table.  This is a
+collection of lines describing the NetCDF output files (and output frequency),
+followed by lines listing the variables that are in each file.  The examples
+contain many possible output variables, with many of these commented out.  The
+model automatically generates a full list of the available ocean metrics at run
+time, usually in the file 'available_diags.000000'. (Here the '000000' is the
+number of the ocean's root processor; this number will often be different for
+coupled runs.)
+
+  In addition, GOLD generates ascii and NetCDF files (usually 'timestats' and
+'timestats.nc') with a few globally summed quantities that give a good idea of
+the status of the runs.  Also, a few NetCDF files are generated with information
+about the model domain (ocean_geometry.nc) and vertical coordinate.
+
+  If the model is failing, this can sometimes be controlled by clipping the
+velocities that exceed some specified threshold (MAXVEL in GOLD_input).  In this
+case, these truncations are recorded, and if there are too many (more than
+MAXTRUNC in GOLD_input) the model is brought down.  Also, the accelerations and
+state at these failing points are recorded in ascii files (U_TRUNC_FILE and
+V_TRUNC_FILE in GOLD_input) that can be used to diagnose why the model is
+failing.  (First try shortening the time step.) But hopefully you will never
+need this!
+
+
+Software requirements:
+
+  GOLD uses GFDL's "Flexible Modeling System", (FMS) for all of its
+infrastructure needs.  All calls to FMS are wrapped in GOLD-specific calls that
+can be found in the files in src/framework.  (It should be theoretically
+possible to replace these FMS infrastructure calls with analogous calls to ESMF,
+for example, by replacing only the contents of src/framework.)  The FMS code is
+found in the shared directory (the exact location of which depends on the CVS
+checkout procedure).
+
+  GOLD requires NetCDF.
+
+
+Compiling with changes:
+
+  A separate readme documents the checkout and compilation procedure for the
+test cases.  To change these, edit or recreate the path_names files to alter the
+files that will be compiled (keeping in mind that the first file with a given
+name is the one that will be used), and redo the mkmf command.
