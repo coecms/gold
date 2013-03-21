@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+module purge
+module load intel-cc
+module load intel-fc
+module load intel-mkl
+module load openmpi
+module load netcdf
+
 build="exec_$(uname -m)"
 mkdir -p $build/solo $build/shared
 
