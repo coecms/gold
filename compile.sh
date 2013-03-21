@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 module purge
-module load intel-cc
-module load intel-fc
-module load intel-mkl
-module load openmpi
-module load netcdf
+module load intel-cc/13.2.146
+module load intel-fc/13.2.146
+module load intel-mkl/13.2.146
+module load netcdf/4.2.1.1
+module load openmpi/1.6.3
 
 build="exec_$(uname -m)"
 mkdir -p $build/solo $build/shared
