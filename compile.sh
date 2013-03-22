@@ -10,6 +10,10 @@ module load openmpi/1.6.3
 build="exec_$(uname -m)"
 mkdir -p $build/solo $build/shared
 
+cd bin
+icc -O2 -lnetcdf -o mppnccombine mppnccombine.c
+cd ..
+
 cd $build/shared
 rm -rf path_names path_names.html
 ../../bin/list_paths ../../shared
